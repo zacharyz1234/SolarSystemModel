@@ -6,7 +6,6 @@ import { Timer } from 'three';
 
 /*
 1. Create all planets
-    Venus
     Earth
     Mars
     Jupiter (Only doing the major moons unless I get REALLY bored)
@@ -79,7 +78,7 @@ const init = () => {
     app.controls = new OrbitControls(app.camera, app.renderer.domElement);
 
     //Create the skybox
-    const starGeometry = new THREE.SphereGeometry(100000, 64, 64);
+    const starGeometry = new THREE.SphereGeometry(400000, 64, 64);
     const starTexture = new THREE.TextureLoader().load("/stars.jpg");
     const starMaterial = new THREE.MeshBasicMaterial({map: starTexture, side: THREE.BackSide});
     const starSphere = new THREE.Mesh(starGeometry, starMaterial);
@@ -92,13 +91,8 @@ const init = () => {
     const sunSphere = new THREE.Mesh(sunGeometry, sunMaterial);
     app.scene.add(sunSphere);
 
-    //Create Mercury
-    const merGeometry = new THREE.SphereGeometry(300, 32, 32);
-    const merTexture = new THREE.TextureLoader().load("mercury.jpg");
-    const merMaterial = new THREE.MeshStandardMaterial({map: merTexture});
-    const merSphere = new THREE.Mesh(merGeometry, merMaterial);
-    app.scene.add(merSphere);
-    merSphere.position.x = 12000;
+   createPlanets();
+
 
     app.camera.position.z = 20000;
 
@@ -118,13 +112,47 @@ const render = () => {
     //variable each render frame
     // time.update();
     // const delta = time.getDelta();
-
-
     // elapsedTime += delta;
     
     app.renderer.render(app.scene, app.camera);
     app.controls.update();
 };
+
+function createPlanets(){
+
+     //Create Mercury
+    const merGeometry = new THREE.SphereGeometry(100, 32, 32);
+    const merTexture = new THREE.TextureLoader().load("mercury.jpg");
+    const merMaterial = new THREE.MeshStandardMaterial({map: merTexture});
+    const merSphere = new THREE.Mesh(merGeometry, merMaterial);
+    app.scene.add(merSphere);
+    merSphere.position.x = 11000;
+
+    //Create Venus
+    const venGeometry = new THREE.SphereGeometry(300, 32, 32);
+    const venTexture = new THREE.TextureLoader().load("venus.jpeg");
+    const venMaterial = new THREE.MeshStandardMaterial({map: venTexture});
+    const venSphere = new THREE.Mesh(venGeometry, venMaterial);
+    app.scene.add(venSphere);
+    venSphere.position.x = 12500;
+
+    //Create Earth
+    const earthGeometry = new THREE.SphereGeometry(320, 32, 32);
+    const earthTexture = new THREE.TextureLoader().load("earth.jpg");
+    const earthMaterial = new THREE.MeshStandardMaterial({map: earthTexture});
+    const earthSphere = new THREE.Mesh(earthGeometry, earthMaterial);
+    app.scene.add(earthSphere);
+    earthSphere.position.x = 15000;
+
+    //Create Mars
+    const marsGeometry = new THREE.SphereGeometry(150, 32, 32);
+    const marsTexture = new THREE.TextureLoader().load("sun.jpg");
+    const marsMaterial = new THREE.MeshStandardMaterial({map: marsTexture});
+    const marsSphere = new THREE.Mesh(marsGeometry, marsMaterial);
+    app.scene.add(marsSphere);
+    marsSphere.position.x = 17500;
+}
+
 
 init();
 render();

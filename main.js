@@ -42,11 +42,11 @@ import { Timer } from 'three';
 
 3. Figure out how to code the rings of saturn
 
-4. Adjust Lighting
+4. Code in rotation for everything
 
-5. Code in rotation for everything
+5. Code in movement for everything
 
-6. Code in movement for everything
+6. Lighting
 
 */
 
@@ -146,11 +146,27 @@ function createPlanets(){
 
     //Create Mars
     const marsGeometry = new THREE.SphereGeometry(150, 32, 32);
-    const marsTexture = new THREE.TextureLoader().load("sun.jpg");
+    const marsTexture = new THREE.TextureLoader().load("mars.jpg");
     const marsMaterial = new THREE.MeshStandardMaterial({map: marsTexture});
     const marsSphere = new THREE.Mesh(marsGeometry, marsMaterial);
     app.scene.add(marsSphere);
     marsSphere.position.x = 17500;
+
+    //Create Jupiter
+    const jupGeometry = new THREE.SphereGeometry(1000, 32, 32);
+    const jupTexture = new THREE.TextureLoader().load("jupiter.jpg");
+    const jupMaterial = new THREE.MeshStandardMaterial({map: jupTexture});
+    const jupSphere = new THREE.Mesh(jupGeometry, jupMaterial);
+    app.scene.add(jupSphere);
+    jupSphere.position.x = 21000;
+
+    const saturnRing = new THREE.TorusGeometry(100, 0.4, 500, 400);
+    const ringTexture = new THREE.TextureLoader().load("saturnRings.png");
+    const ringMaterial = new THREE.MeshStandardMaterial({map: ringTexture});
+    const ringTorus = new THREE.Mesh(saturnRing, ringMaterial);
+    app.scene.add(ringTorus);
+    ringTorus.rotation.x = 90;
+    //ringTorus.position.x = 0;
 }
 
 

@@ -160,13 +160,32 @@ function createPlanets(){
     app.scene.add(jupSphere);
     jupSphere.position.x = 21000;
 
-    const saturnRing = new THREE.TorusGeometry(100, 0.4, 500, 400);
+    const satGeometry = new THREE.SphereGeometry(900, 32, 32);
+    const satTexture = new THREE.TextureLoader().load("saturn.jpg");
+    const satMaterial = new THREE.MeshStandardMaterial({map: satTexture});
+    const satSphere = new THREE.Mesh(satGeometry, satMaterial);
+    app.scene.add(satSphere);
+    satSphere.position.x = 25000;
+
+    const saturnRing = new THREE.RingGeometry(1000, 1800, 128);
     const ringTexture = new THREE.TextureLoader().load("saturnRings.png");
-    const ringMaterial = new THREE.MeshStandardMaterial({map: ringTexture});
-    const ringTorus = new THREE.Mesh(saturnRing, ringMaterial);
-    app.scene.add(ringTorus);
-    ringTorus.rotation.x = 90;
-    //ringTorus.position.x = 0;
+    const ringMaterial = new THREE.MeshStandardMaterial({map: ringTexture, side: THREE.DoubleSide, transparent: true});
+    const ring = new THREE.Mesh(saturnRing, ringMaterial);
+    app.scene.add(ring);
+
+    const positions = ring.geometry.attributes.position;
+    const uvs = ring.geometry.attributes.uv;
+    for (let i = 0; i < positions.count; i++) {
+    const x = positions.getX(i);
+    const y = positions.getY(i);
+    uvs.setXY(i, (x / 2500 + 1) / 2, (y / 2500 + 1) / 2);
+    }
+    uvs.needsUpdate = true;
+
+    ring.rotation.x = Math.PI / 2;
+    ring.position.x = satSphere.position.x;
+
+
 }
 
 

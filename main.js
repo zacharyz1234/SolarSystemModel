@@ -61,12 +61,14 @@ let app = {
 
 //Sets a global variable so that the timer can
 //be used in all of the code
-let time;
+let time = new THREE.Clock;
 //Elapsed time lets time be accumulated for the moon
 //being able to move on the circular radius
 let elapsedTime = 0;
 
 const init = () => {
+
+    const time = new Timer();
 
     app.renderer = new THREE.WebGLRenderer();
     console.log(app.renderer);
@@ -91,11 +93,16 @@ const render = () => {
 
     requestAnimationFrame(render);
 
-    //Updates the time to hold the delta in its
-    //variable each render frame
-    // time.update();
-    // const delta = time.getDelta();
-    // elapsedTime += delta;
+    // Updates the time to hold the delta in its
+    // variable each render frame
+    const delta = time.getDelta();
+    elapsedTime += delta;
+
+    const earth = app.scene.getObjectByName("earth");
+    const r = 15650;
+    const w = 0.54 * (3.14159 / 180);
+    earth.position.x = r * Math.cos(w * elapsedTime);
+    earth.position.z = -r * Math.sin(w * elapsedTime);
     
     app.renderer.render(app.scene, app.camera);
     app.controls.update();
@@ -139,6 +146,7 @@ function createGeometry(){
     const earthMaterial = new THREE.MeshStandardMaterial({map: earthTexture});
     const earthSphere = new THREE.Mesh(earthGeometry, earthMaterial);
     app.scene.add(earthSphere);
+    earthSphere.name = "earth";
     earthSphere.position.x = 15650;
 
     //Create Mars
@@ -193,6 +201,7 @@ function createGeometry(){
     app.scene.add(uraSphere);
     uraSphere.position.x = 29150;
 
+    //Create Neptune
     const nepGeometry = new THREE.SphereGeometry(600, 32, 32);
     const nepTexture = new THREE.TextureLoader().load("neptune.jpg");
     const nepMaterial = new THREE.MeshStandardMaterial({map: nepTexture});

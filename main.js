@@ -48,6 +48,10 @@ import { Timer } from 'three';
 
 6. Lighting
 
+7. Add UI elements
+    Speed up button
+    pause button
+
 */
 
 
@@ -96,37 +100,92 @@ const render = () => {
 
     //Speed variable lets you adjust speed. Eventually, you'll
     //be able to click a UI element to increase speed
-    let speed = 1;
+    let speed = 100;
 
     planetMovement(speed);
-    planetRotation();
+    planetRotation(speed);
+    createOrbitRings();
     
     app.renderer.render(app.scene, app.camera);
     app.controls.update();
 };
 
-function planetRotation()
+//Creating rings equal to the radius of each planet so it
+//is a little nicer to look at
+function createOrbitRings()
+{
+    //Mercury
+    const orbitMerGeometry = new THREE.RingGeometry(11645, 11655, 128);
+    const orbitRingMaterial = new THREE.MeshBasicMaterial({color: 0x808080, transparent: true, side: THREE.DoubleSide})
+    const orbitRingMer = new THREE.Mesh(orbitMerGeometry, orbitRingMaterial);
+    orbitRingMer.rotation.x = Math.PI / 2;
+    app.scene.add(orbitRingMer);
+
+    //Venus
+    const orbitVenGeometry = new THREE.RingGeometry(13145, 13155, 128);
+    const orbitRingVen = new THREE.Mesh(orbitVenGeometry, orbitRingMaterial);
+    orbitRingVen.rotation.x = Math.PI / 2;
+    app.scene.add(orbitRingVen);
+
+    //Earth
+    const orbitEarthGeometry = new THREE.RingGeometry(15645, 15655, 128);
+    const orbitRingEarth = new THREE.Mesh(orbitEarthGeometry, orbitRingMaterial);
+    orbitRingVen.rotation.x = Math.PI / 2;
+    app.scene.add(orbitRingEarth);
+
+    //Mars
+    const orbitMarsGeometry = new THREE.RingGeometry(18145, 18155, 128);
+    const orbitRingMars = new THREE.Mesh(orbitMarsGeometry, orbitRingMaterial);
+    orbitRingMars.rotation.x = Math.PI / 2;
+    app.scene.add(orbitRingMars);
+
+    //Jupiter
+    const orbitJupGeometry = new THREE.RingGeometry(21645, 21655, 128);
+    const orbitRingJup = new THREE.Mesh(orbitJupGeometry, orbitRingMaterial);
+    orbitRingJup.rotation.x = Math.PI / 2;
+    app.scene.add(orbitRingJup);
+
+    //Saturn
+    const orbitSatGeometry = new THREE.RingGeometry(25655, 25665, 128);
+    const orbitRingSat = new THREE.Mesh(orbitSatGeometry, orbitRingMaterial);
+    orbitRingSat.rotation.x = Math.PI / 2;
+    app.scene.add(orbitRingSat);
+
+    //Uranus
+    const orbitUraGeometry = new THREE.RingGeometry(29145, 29155, 128);
+    const orbitRingUra = new THREE.Mesh(orbitUraGeometry, orbitRingMaterial);
+    orbitRingUra.rotation.x = Math.PI / 2;
+    app.scene.add(orbitRingUra);
+
+    //Neptune
+    const orbitNepGeometry = new THREE.RingGeometry(32145, 32155, 128);
+    const orbitRingNep = new THREE.Mesh(orbitNepGeometry, orbitRingMaterial);
+    orbitRingNep.rotation.x = Math.PI / 2;
+    app.scene.add(orbitRingNep);
+}
+
+function planetRotation(speed)
 {
     // Updates the time to hold the delta in its
     // variable each render frame
     const delta = time.getDelta();
     elapsedTime += delta;
 
-    app.scene.getObjectByName("mercury").rotation.y += delta * 0.025 * (3.14159 / 180);
+    app.scene.getObjectByName("mercury").rotation.y += delta * 0.025 * (3.14159 / 180) * speed;
 
-    app.scene.getObjectByName("venus").rotation.y -= delta * 0.006 * (3.14159 / 180);
+    app.scene.getObjectByName("venus").rotation.y -= delta * 0.006 * (3.14159 / 180) * speed;
 
-    app.scene.getObjectByName("earth").rotation.y += delta * 1.5 * (3.14159 / 180);
+    app.scene.getObjectByName("earth").rotation.y += delta * 1.5 * (3.14159 / 180) * speed;
 
-    app.scene.getObjectByName("mars").rotation.y += delta * 1.46 * (3.14159 / 180);
+    app.scene.getObjectByName("mars").rotation.y += delta * 1.46 * (3.14159 / 180) * speed;
 
-    app.scene.getObjectByName("jupiter").rotation.y += delta * 3.6 * (3.14159 / 180);
+    app.scene.getObjectByName("jupiter").rotation.y += delta * 3.6 * (3.14159 / 180) * speed;
 
-    app.scene.getObjectByName("saturn").rotation.y += delta * 3.3 * (3.14159 / 180);
+    app.scene.getObjectByName("saturn").rotation.y += delta * 3.3 * (3.14159 / 180) * speed;
 
-    app.scene.getObjectByName("uranus").rotation.y += delta * 2.1 * (3.14159 / 180);
+    app.scene.getObjectByName("uranus").rotation.y += delta * 2.1 * (3.14159 / 180) * speed;
 
-    app.scene.getObjectByName("neptune").rotation.y += delta * 2.25 * (3.14159 / 180);
+    app.scene.getObjectByName("neptune").rotation.y += delta * 2.25 * (3.14159 / 180) * speed;
 
 }
 

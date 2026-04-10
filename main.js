@@ -81,17 +81,25 @@ const init = () => {
     app.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000000);
     app.controls = new OrbitControls(app.camera, app.renderer.domElement);
 
+    app.renderer.shadowMap.enabled = true;
+    app.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
     createPlanetGeometry();
+    createOrbitRings();
 
     app.camera.position.x = 40000;
 
-    const light = new THREE.DirectionalLight(0xffffff, 3);
-    light.position.set(0, 0, 0);
-    app.scene.add(light);
+    const sunLight = new THREE.PointLight(0xffffff, 3, 0, 0);
+    sunLight.position.set(0, 0, 0);
+    app.scene.add(sunLight);
     
-    const ambLight = new THREE.AmbientLight(0xffffff, 0.5);
+    const ambLight = new THREE.AmbientLight(0xffffff, 0.1);
     app.scene.add(ambLight);
 
+    sunLight.castShadow = true;
+    sunLight.shadow.camera.far = 100000;
+    sunLight.shadow.mapSize.width = 2048
+    sunLight.shadow.mapSize.height = 2048
 }
 
 const render = () => {
@@ -104,7 +112,6 @@ const render = () => {
 
     planetMovement(speed);
     planetRotation(speed);
-    createOrbitRings();
     
     app.renderer.render(app.scene, app.camera);
     app.controls.update();
@@ -130,7 +137,7 @@ function createOrbitRings()
     //Earth
     const orbitEarthGeometry = new THREE.RingGeometry(15645, 15655, 128);
     const orbitRingEarth = new THREE.Mesh(orbitEarthGeometry, orbitRingMaterial);
-    orbitRingVen.rotation.x = Math.PI / 2;
+    orbitRingEarth.rotation.x = Math.PI / 2;
     app.scene.add(orbitRingEarth);
 
     //Mars
@@ -260,6 +267,8 @@ function createPlanetGeometry()
     const starMaterial = new THREE.MeshBasicMaterial({map: starTexture, side: THREE.BackSide});
     const starSphere = new THREE.Mesh(starGeometry, starMaterial);
     app.scene.add(starSphere);  
+    starSphere.castShadow = false;
+    starSphere.receiveShadow = false;
 
     //Create the sun
     const sunGeometry = new THREE.SphereGeometry(10000, 32, 32);
@@ -267,6 +276,8 @@ function createPlanetGeometry()
     const sunMaterial = new THREE.MeshBasicMaterial({map: sunTexture});
     const sunSphere = new THREE.Mesh(sunGeometry, sunMaterial);
     app.scene.add(sunSphere);
+    sunSphere.castShadow = false;
+    sunSphere.receiveShadow = false;
 
      //Create Mercury
     const merGeometry = new THREE.SphereGeometry(100, 32, 32);
@@ -275,6 +286,8 @@ function createPlanetGeometry()
     const merSphere = new THREE.Mesh(merGeometry, merMaterial);
     app.scene.add(merSphere);
     merSphere.name = "mercury";
+    merSphere.castShadow = true;
+    merSphere.receiveShadow = true;
     merSphere.position.x = 11650;
 
     //Create Venus
@@ -284,6 +297,8 @@ function createPlanetGeometry()
     const venSphere = new THREE.Mesh(venGeometry, venMaterial);
     app.scene.add(venSphere);
     venSphere.name = "venus";
+    venSphere.castShadow = true;
+    venSphere.receiveShadow = true;
     venSphere.position.x = 13150;
 
     //Create Earth
@@ -293,6 +308,8 @@ function createPlanetGeometry()
     const earthSphere = new THREE.Mesh(earthGeometry, earthMaterial);
     app.scene.add(earthSphere);
     earthSphere.name = "earth";
+    earthSphere.castShadow = true;
+    earthSphere.receiveShadow = true;
     earthSphere.position.x = 15650;
 
     //Create Mars
@@ -302,6 +319,8 @@ function createPlanetGeometry()
     const marsSphere = new THREE.Mesh(marsGeometry, marsMaterial);
     app.scene.add(marsSphere);
     marsSphere.name = "mars";
+    marsSphere.castShadow = true;
+    marsSphere.receiveShadow = true;
     marsSphere.position.x = 18150;
 
     //Create Jupiter
@@ -311,6 +330,8 @@ function createPlanetGeometry()
     const jupSphere = new THREE.Mesh(jupGeometry, jupMaterial);
     app.scene.add(jupSphere);
     jupSphere.name = "jupiter";
+    jupSphere.castShadow = true;
+    jupSphere.receiveShadow = true;
     jupSphere.position.x = 21650;
 
     //Create Saturn
@@ -319,6 +340,8 @@ function createPlanetGeometry()
     const satMaterial = new THREE.MeshStandardMaterial({map: satTexture});
     const satSphere = new THREE.Mesh(satGeometry, satMaterial);
     app.scene.add(satSphere);
+    satSphere.castShadow = true;
+    satSphere.receiveShadow = true;
     satSphere.name = "saturn";
     satSphere.position.x = 25650;
 
@@ -328,6 +351,8 @@ function createPlanetGeometry()
     const ringMaterial = new THREE.MeshStandardMaterial({map: ringTexture, side: THREE.DoubleSide, transparent: true});
     const ring = new THREE.Mesh(saturnRing, ringMaterial);
     ring.name = "saturn_ring";
+    ring.castShadow = false;
+    ring.receiveShadow = true;
     app.scene.add(ring);
 
     //Saturn ring UV wrapping
@@ -350,6 +375,8 @@ function createPlanetGeometry()
     const uraSphere = new THREE.Mesh(uraGeometry, uraMaterial);
     app.scene.add(uraSphere);
     uraSphere.name = "uranus";
+    uraSphere.castShadow = true;
+    uraSphere.receiveShadow = true;
     uraSphere.position.x = 29150;
 
     //Create Neptune
@@ -359,6 +386,8 @@ function createPlanetGeometry()
     const nepSphere = new THREE.Mesh(nepGeometry, nepMaterial);
     app.scene.add(nepSphere);
     nepSphere.name = "neptune";
+    nepSphere.castShadow = true;
+    nepSphere.receiveShadow = true;
     nepSphere.position.x = 32150;
 
 

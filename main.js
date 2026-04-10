@@ -178,6 +178,8 @@ function planetRotation(speed)
     const delta = time.getDelta();
     elapsedTime += delta;
 
+    app.scene.getObjectByName("sun").rotation.y += delta * 0.01 * (3.14159 / 180) * speed;
+
     app.scene.getObjectByName("mercury").rotation.y += delta * 0.025 * (3.14159 / 180) * speed;
 
     app.scene.getObjectByName("venus").rotation.y -= delta * 0.006 * (3.14159 / 180) * speed;
@@ -276,6 +278,7 @@ function createPlanetGeometry()
     const sunMaterial = new THREE.MeshBasicMaterial({map: sunTexture});
     const sunSphere = new THREE.Mesh(sunGeometry, sunMaterial);
     app.scene.add(sunSphere);
+    sunSphere.name = "sun";
     sunSphere.castShadow = false;
     sunSphere.receiveShadow = false;
 

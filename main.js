@@ -84,6 +84,7 @@ const init = () => {
     app.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     createPlanetGeometry();
+    createMoonGeometry();
     createOrbitRings();
 
     app.camera.position.x = 40000;
@@ -151,8 +152,6 @@ const render = () => {
 
     requestAnimationFrame(render);
 
-    //Speed variable lets you adjust speed. Eventually, you'll
-    //be able to click a UI element to increase speed
     if(!pause)
     {
         // Updates the time to hold the delta in its
@@ -160,9 +159,9 @@ const render = () => {
         const delta = time.getDelta();
         elapsedTime += delta * speed;
         planetMovement(speed);
+        //moonMovement();
         planetRotation(speed, delta);
     }
-    
     
     app.renderer.render(app.scene, app.camera);
     app.controls.update();
@@ -176,56 +175,56 @@ function createOrbitRings()
     const orbitMerGeometry = new THREE.RingGeometry(11645, 11655, 128);
     const orbitRingMaterial = new THREE.MeshBasicMaterial({color: 0x808080, transparent: true, side: THREE.DoubleSide})
     const orbitRingMer = new THREE.Mesh(orbitMerGeometry, orbitRingMaterial);
-    orbitRingMer.rotation.x = Math.PI / 2 - (7.0 * Math.PI / 180);
+    orbitRingMer.rotation.x = Math.PI / 2 + (7.0 * Math.PI / 180);
     orbitRingMer.name = "orbitMer";
     app.scene.add(orbitRingMer);
 
     //Venus
     const orbitVenGeometry = new THREE.RingGeometry(13145, 13155, 128);
     const orbitRingVen = new THREE.Mesh(orbitVenGeometry, orbitRingMaterial);
-    orbitRingVen.rotation.x = Math.PI / 2 - (3.4 * Math.PI / 180);
+    orbitRingVen.rotation.x = Math.PI / 2 + (3.4 * Math.PI / 180);
     orbitRingVen.name = "orbitVen";
     app.scene.add(orbitRingVen);
 
     //Earth
     const orbitEarthGeometry = new THREE.RingGeometry(15645, 15655, 128);
     const orbitRingEarth = new THREE.Mesh(orbitEarthGeometry, orbitRingMaterial);
-    orbitRingEarth.rotation.x = Math.PI / 2 - (0 * Math.PI / 180);
+    orbitRingEarth.rotation.x = Math.PI / 2 + (0 * Math.PI / 180);
     orbitRingEarth.name = "orbitEarth";
     app.scene.add(orbitRingEarth);
 
     //Mars
     const orbitMarsGeometry = new THREE.RingGeometry(18145, 18155, 128);
     const orbitRingMars = new THREE.Mesh(orbitMarsGeometry, orbitRingMaterial);
-    orbitRingMars.rotation.x = Math.PI / 2 - (1.85 * Math.PI / 180);
+    orbitRingMars.rotation.x = Math.PI / 2 + (1.85 * Math.PI / 180);
     orbitRingMars.name = "orbitMars";
     app.scene.add(orbitRingMars);
 
     //Jupiter
     const orbitJupGeometry = new THREE.RingGeometry(21645, 21655, 128);
     const orbitRingJup = new THREE.Mesh(orbitJupGeometry, orbitRingMaterial);
-    orbitRingJup.rotation.x = Math.PI / 2 - (1.3 * Math.PI / 180);
+    orbitRingJup.rotation.x = Math.PI / 2 + (1.3 * Math.PI / 180);
     orbitRingJup.name = "orbitJup";
     app.scene.add(orbitRingJup);
 
     //Saturn
     const orbitSatGeometry = new THREE.RingGeometry(25655, 25665, 128);
     const orbitRingSat = new THREE.Mesh(orbitSatGeometry, orbitRingMaterial);
-    orbitRingSat.rotation.x = Math.PI / 2 - (2.49 * Math.PI / 180);
+    orbitRingSat.rotation.x = Math.PI / 2 + (2.49 * Math.PI / 180);
     orbitRingSat.name = "orbitSat";
     app.scene.add(orbitRingSat);
 
     //Uranus
     const orbitUraGeometry = new THREE.RingGeometry(29145, 29155, 128);
     const orbitRingUra = new THREE.Mesh(orbitUraGeometry, orbitRingMaterial);
-    orbitRingUra.rotation.x = Math.PI / 2 - (0.77 * Math.PI / 180);
+    orbitRingUra.rotation.x = Math.PI / 2 + (0.77 * Math.PI / 180);
     orbitRingUra.name = "orbitUra";
     app.scene.add(orbitRingUra);
 
     //Neptune
     const orbitNepGeometry = new THREE.RingGeometry(32145, 32155, 128);
     const orbitRingNep = new THREE.Mesh(orbitNepGeometry, orbitRingMaterial);
-    orbitRingNep.rotation.x = Math.PI / 2 - (1.77 * Math.PI / 180);
+    orbitRingNep.rotation.x = Math.PI / 2 + (1.77 * Math.PI / 180);
     orbitRingNep.name = "orbitNep";
     app.scene.add(orbitRingNep);
 }
@@ -252,7 +251,8 @@ function planetRotation(speed, delta)
 
 }
 
-const planetData = [
+const planetData = 
+[
     {name: "mercury", w: 1.6, r: 11650, inc: 7.0},
     {name: "venus", w: 1.2, r: 13150, inc: 3.4},
     {name: "earth", w: 1, r: 15650, inc: 0},
@@ -418,6 +418,133 @@ function createPlanetGeometry()
 
 }
 
+function createMoonGeometry()
+{
+    //The moon
+    const moonGeometry = new THREE.SphereGeometry(80, 32, 32);
+    const moonTexture = new THREE.TextureLoader().load("moon.jpg");
+    const moonMaterial = new THREE.MeshStandardMaterial({map: moonTexture});
+    const moonSphere = new THREE.Mesh(moonGeometry, moonMaterial);
+    moonSphere.name = "moon";
+    moonSphere.castShadow = true;
+    moonSphere.receiveShadow = true;
+    app.scene.add(moonSphere);
+
+    //Deimos
+    const deimosGeometry = new THREE.SphereGeometry(20, 32, 32);
+    const deimosTexture = new THREE.TextureLoader().load("deimos.jpg");
+    const deimosMaterial = new THREE.MeshStandardMaterial({map: deimosTexture});
+    const deimosSphere = new THREE.Mesh(deimosGeometry, deimosMaterial);
+    deimosSphere.name = "deimos";
+    deimosSphere.castShadow = true;
+    deimosSphere.receiveShadow = true;
+    app.scene.add(deimosSphere);
+
+    //Phobos
+    const phobosGeometry = new THREE.SphereGeometry(20, 32, 32);
+    const phobosTexture = new THREE.TextureLoader().load("phobos.jpg");
+    const phobosMaterial = new THREE.MeshStandardMaterial({map: phobosTexture});
+    const phobosSphere = new THREE.Mesh(phobosGeometry, phobosMaterial);
+    phobosSphere.name = "phobos";
+    phobosSphere.castShadow = true;
+    phobosSphere.receiveShadow = true;
+    app.scene.add(phobosSphere);
+
+    //IO
+    const ioGeometry = new THREE.SphereGeometry(20, 32, 32);
+    const ioTexture = new THREE.TextureLoader().load("io.jpeg");
+    const ioMaterial = new THREE.MeshStandardMaterial({map: ioTexture});
+    const ioSphere = new THREE.Mesh(ioGeometry, ioMaterial);
+    ioSphere.name = "io";
+    ioSphere.castShadow = true;
+    ioSphere.receiveShadow = true;
+    app.scene.add(ioSphere);
+
+    //Europa
+    const eurGeometry = new THREE.SphereGeometry(20, 32, 32);
+    const eurTexture = new THREE.TextureLoader().load("europa.jpg");
+    const eurMaterial = new THREE.MeshStandardMaterial({map: eurTexture});
+    const eurSphere = new THREE.Mesh(eurGeometry, eurMaterial);
+    eurSphere.name = "europa";
+    eurSphere.castShadow = true;
+    eurSphere.receiveShadow = true;
+    app.scene.add(eurSphere);
+
+    //Ganymede
+    const ganyGeometry = new THREE.SphereGeometry(20, 32, 32);
+    const ganyTexture = new THREE.TextureLoader().load("ganymede.jpg");
+    const ganyMaterial = new THREE.MeshStandardMaterial({map: ganyTexture});
+    const ganySphere = new THREE.Mesh(ganyGeometry, ganyMaterial);
+    ganySphere.name = "ganymede";
+    ganySphere.castShadow = true;
+    ganySphere.receiveShadow = true;
+    app.scene.add(ganySphere);
+
+    //Callisto
+    const calGeometry = new THREE.SphereGeometry(20, 32, 32);
+    const calTexture = new THREE.TextureLoader().load("callisto.jpg");
+    const calMaterial = new THREE.MeshStandardMaterial({map: calTexture});
+    const calSphere = new THREE.Mesh(calGeometry, calMaterial);
+    calSphere.name = "callisto";
+    calSphere.castShadow = true;
+    calSphere.receiveShadow = true;
+    app.scene.add(calSphere);
+
+    //Titan
+    const titanGeometry = new THREE.SphereGeometry(20, 32, 32);
+    const titanTexture = new THREE.TextureLoader().load("titan.jpg");
+    const titanMaterial = new THREE.MeshStandardMaterial({map: titanTexture});
+    const titanSphere = new THREE.Mesh(titanGeometry, titanMaterial);
+    titanSphere.name = "titan";
+    titanSphere.castShadow = true;
+    titanSphere.receiveShadow = true;
+    app.scene.add(titanSphere);
+}
+
+const moonData = 
+[
+    {name: "moon", parent: "earth", w: 13.2, r: 500, inc: 5.14},
+
+    {name: "phobos", parent: "mars", w: 25, r: 200, inc: 1.08},
+    {name: "deimos", parent: "mars", w: 6, r: 280, inc: 1.79},
+
+    {name: "io", parent: "jupiter", w: 20, r: 1400, inc: 0.05},
+    {name: "europa", parent: "jupiter", w: 10, r: 1700, inc: 0.47},
+    {name: "ganymede", parent: "jupiter", w: 5, r: 2100, inc: 0.2},
+    {name: "callisto", parent: "jupiter", w: 2, r: 2700, inc: 0.19},
+
+    {name: "titan", parent: "saturn", w: 4, r: 1400, inc: 0.33},
+    {name: "enceladus", parent: "saturn", w: 18, r: 1050, inc: 0.02},
+    {name: "iapetus", parent: "saturn", w: 0.8, r: 2200, inc: 7.57},
+    {name: "mimas", parent: "saturn", w: 22, r: 950, inc: 1.57},
+
+    {name: "titania", parent: "uranus", w: 2.2, r: 900, inc: 0.08},
+    {name: "oberon", parent: "uranus", w: 1.4, r: 1050, inc: 0.07},
+    {name: "ariel", parent: "uranus", w: 5.5, r: 700, inc: 0.04},
+    {name: "umbriel", parent: "uranus", w: 3.6, r: 800, inc: 0.13},
+    {name: "miranda", parent: "uranus", w: 9, r: 600, inc: 4.34},
+
+    {name: "triton", parent: "neptune", w: 5, r: 900, inc: 157},
+    {name: "proteus", parent: "neptune", w: 14, r: 700, inc: 0.55},
+    {name: "nereid", parent: "neptune", w: 0.3, r: 1400, inc: 7.23},
+    {name: "larissa", parent: "neptune", w: 16, r: 650, inc: 0.2},
+]
+
+function moonMovement()
+{
+    moonData.forEach(m => 
+    {
+        const moon = app.scene.getObjectByName(m.name);
+        const parent = app.scene.getObjectByName(m.parent);
+        const w = m.w * (Math.PI / 180);
+        const inc = m.inc * (Math.PI / 180);
+        const angle = w * elapsedTime;
+
+        moon.position.x = parent.position.x + m.r * Math.cos(angle);
+        moon.position.z = parent.position.z + (-m.r * Math.sin(angle) * Math.cos(inc));
+        moon.position.y = parent.position.y + (m.r * Math.sin(angle) * Math.sin(inc));
+    })
+}
 
 init();
 render();

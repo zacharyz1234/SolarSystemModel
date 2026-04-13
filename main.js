@@ -133,6 +133,10 @@ const render = () => {
     //be able to click a UI element to increase speed
     if(!pause)
     {
+        // Updates the time to hold the delta in its
+        // variable each render frame
+        const delta = time.getDelta();
+        elapsedTime += delta * speed;
         planetMovement(speed);
         planetRotation(speed);
     }
@@ -198,28 +202,23 @@ function createOrbitRings()
 
 function planetRotation(speed)
 {
-    // Updates the time to hold the delta in its
-    // variable each render frame
-    const delta = time.getDelta();
-    elapsedTime += delta * speed;
+    app.scene.getObjectByName("sun").rotation.y += delta * 0.01 * (3.14159 / 180) * speed;
 
-    app.scene.getObjectByName("sun").rotation.y += delta * 0.01 * (3.14159 / 180);
+    app.scene.getObjectByName("mercury").rotation.y += delta * 0.025 * (3.14159 / 180) * speed;
 
-    app.scene.getObjectByName("mercury").rotation.y += delta * 0.025 * (3.14159 / 180);
+    app.scene.getObjectByName("venus").rotation.y -= delta * 0.006 * (3.14159 / 180) * speed;
 
-    app.scene.getObjectByName("venus").rotation.y -= delta * 0.006 * (3.14159 / 180);
+    app.scene.getObjectByName("earth").rotation.y += delta * 1.5 * (3.14159 / 180) * speed;
 
-    app.scene.getObjectByName("earth").rotation.y += delta * 1.5 * (3.14159 / 180);
+    app.scene.getObjectByName("mars").rotation.y += delta * 1.46 * (3.14159 / 180) * speed;
 
-    app.scene.getObjectByName("mars").rotation.y += delta * 1.46 * (3.14159 / 180);
+    app.scene.getObjectByName("jupiter").rotation.y += delta * 3.6 * (3.14159 / 180) * speed;
 
-    app.scene.getObjectByName("jupiter").rotation.y += delta * 3.6 * (3.14159 / 180);
+    app.scene.getObjectByName("saturn").rotation.y += delta * 3.3 * (3.14159 / 180) * speed;
 
-    app.scene.getObjectByName("saturn").rotation.y += delta * 3.3 * (3.14159 / 180);
+    app.scene.getObjectByName("uranus").rotation.y += delta * 2.1 * (3.14159 / 180) * speed;
 
-    app.scene.getObjectByName("uranus").rotation.y += delta * 2.1 * (3.14159 / 180);
-
-    app.scene.getObjectByName("neptune").rotation.y += delta * 2.25 * (3.14159 / 180);
+    app.scene.getObjectByName("neptune").rotation.y += delta * 2.25 * (3.14159 / 180) * speed;
 
 }
 

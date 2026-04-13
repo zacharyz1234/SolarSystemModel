@@ -105,6 +105,7 @@ const init = () => {
 
 let speed = 10;
 let pause = false;
+let ringsVisible = true;
 
 //Sets speed to the value indicated by the slider in
 //index.html
@@ -127,6 +128,23 @@ document.getElementById("pauseButton").addEventListener("click", () =>
     else
     {
         time.start();
+    }
+})
+
+document.getElementById("orbitToggle").addEventListener("click", () =>
+{
+    ringsVisible = !ringsVisible;
+
+    const ringNames = ["orbitMer", "orbitVen", "orbitEarth", "orbitMars",
+                        "orbitJup", "orbitSat", "orbitUra", "orbitNep"];
+
+    for(let i = 0; i < ringNames.length; i++)
+    {
+        const ring = app.scene.getObjectByName(ringNames[i]);
+        if(ring)
+        {
+            ring.visible = ringsVisible;
+        }
     }
 })
 
@@ -160,48 +178,56 @@ function createOrbitRings()
     const orbitRingMaterial = new THREE.MeshBasicMaterial({color: 0x808080, transparent: true, side: THREE.DoubleSide})
     const orbitRingMer = new THREE.Mesh(orbitMerGeometry, orbitRingMaterial);
     orbitRingMer.rotation.x = Math.PI / 2;
+    orbitRingMer.name = "orbitMer";
     app.scene.add(orbitRingMer);
 
     //Venus
     const orbitVenGeometry = new THREE.RingGeometry(13145, 13155, 128);
     const orbitRingVen = new THREE.Mesh(orbitVenGeometry, orbitRingMaterial);
     orbitRingVen.rotation.x = Math.PI / 2;
+    orbitRingVen.name = "orbitVen";
     app.scene.add(orbitRingVen);
 
     //Earth
     const orbitEarthGeometry = new THREE.RingGeometry(15645, 15655, 128);
     const orbitRingEarth = new THREE.Mesh(orbitEarthGeometry, orbitRingMaterial);
     orbitRingEarth.rotation.x = Math.PI / 2;
+    orbitRingEarth.name = "orbitEarth";
     app.scene.add(orbitRingEarth);
 
     //Mars
     const orbitMarsGeometry = new THREE.RingGeometry(18145, 18155, 128);
     const orbitRingMars = new THREE.Mesh(orbitMarsGeometry, orbitRingMaterial);
     orbitRingMars.rotation.x = Math.PI / 2;
+    orbitRingMars.name = "orbitMars";
     app.scene.add(orbitRingMars);
 
     //Jupiter
     const orbitJupGeometry = new THREE.RingGeometry(21645, 21655, 128);
     const orbitRingJup = new THREE.Mesh(orbitJupGeometry, orbitRingMaterial);
     orbitRingJup.rotation.x = Math.PI / 2;
+    orbitRingJup.name = "orbitJup";
     app.scene.add(orbitRingJup);
 
     //Saturn
     const orbitSatGeometry = new THREE.RingGeometry(25655, 25665, 128);
     const orbitRingSat = new THREE.Mesh(orbitSatGeometry, orbitRingMaterial);
     orbitRingSat.rotation.x = Math.PI / 2;
+    orbitRingSat.name = "orbitSat";
     app.scene.add(orbitRingSat);
 
     //Uranus
     const orbitUraGeometry = new THREE.RingGeometry(29145, 29155, 128);
     const orbitRingUra = new THREE.Mesh(orbitUraGeometry, orbitRingMaterial);
     orbitRingUra.rotation.x = Math.PI / 2;
+    orbitRingUra.name = "orbitUra";
     app.scene.add(orbitRingUra);
 
     //Neptune
     const orbitNepGeometry = new THREE.RingGeometry(32145, 32155, 128);
     const orbitRingNep = new THREE.Mesh(orbitNepGeometry, orbitRingMaterial);
     orbitRingNep.rotation.x = Math.PI / 2;
+    orbitRingNep.name = "orbitNep";
     app.scene.add(orbitRingNep);
 }
 

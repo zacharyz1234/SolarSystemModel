@@ -46,7 +46,7 @@ import { Timer } from 'three';
 
 5. Code in movement for everything
 
-6. Lighting
+6. Lighting - DONE
 
 7. Add UI elements
     Speed up button
@@ -102,16 +102,41 @@ const init = () => {
     sunLight.shadow.mapSize.height = 2048
 }
 
+let speed = 10;
+let pause = false;
+
+document.getElementById("speedSlider").addEventListener("input", (e) =>
+{
+    speed = e.target.value;
+})
+
+document.getElementById("pauseButton").addEventListener("click", () =>
+{
+    pause = !pause;
+    //When paused, the time needs to stop
+    //so planets don't jump ahead
+    if(pause)
+    {
+        time.stop();
+    }
+    else
+    {
+        time.start();
+    }
+})
+
 const render = () => {
 
     requestAnimationFrame(render);
 
     //Speed variable lets you adjust speed. Eventually, you'll
     //be able to click a UI element to increase speed
-    let speed = 100;
-
-    planetMovement(speed);
-    planetRotation(speed);
+    if(!pause)
+    {
+        planetMovement(speed);
+        planetRotation(speed);
+    }
+    
     
     app.renderer.render(app.scene, app.camera);
     app.controls.update();
@@ -176,25 +201,25 @@ function planetRotation(speed)
     // Updates the time to hold the delta in its
     // variable each render frame
     const delta = time.getDelta();
-    elapsedTime += delta;
+    elapsedTime += delta * speed;
 
-    app.scene.getObjectByName("sun").rotation.y += delta * 0.01 * (3.14159 / 180) * speed;
+    app.scene.getObjectByName("sun").rotation.y += delta * 0.01 * (3.14159 / 180);
 
-    app.scene.getObjectByName("mercury").rotation.y += delta * 0.025 * (3.14159 / 180) * speed;
+    app.scene.getObjectByName("mercury").rotation.y += delta * 0.025 * (3.14159 / 180);
 
-    app.scene.getObjectByName("venus").rotation.y -= delta * 0.006 * (3.14159 / 180) * speed;
+    app.scene.getObjectByName("venus").rotation.y -= delta * 0.006 * (3.14159 / 180);
 
-    app.scene.getObjectByName("earth").rotation.y += delta * 1.5 * (3.14159 / 180) * speed;
+    app.scene.getObjectByName("earth").rotation.y += delta * 1.5 * (3.14159 / 180);
 
-    app.scene.getObjectByName("mars").rotation.y += delta * 1.46 * (3.14159 / 180) * speed;
+    app.scene.getObjectByName("mars").rotation.y += delta * 1.46 * (3.14159 / 180);
 
-    app.scene.getObjectByName("jupiter").rotation.y += delta * 3.6 * (3.14159 / 180) * speed;
+    app.scene.getObjectByName("jupiter").rotation.y += delta * 3.6 * (3.14159 / 180);
 
-    app.scene.getObjectByName("saturn").rotation.y += delta * 3.3 * (3.14159 / 180) * speed;
+    app.scene.getObjectByName("saturn").rotation.y += delta * 3.3 * (3.14159 / 180);
 
-    app.scene.getObjectByName("uranus").rotation.y += delta * 2.1 * (3.14159 / 180) * speed;
+    app.scene.getObjectByName("uranus").rotation.y += delta * 2.1 * (3.14159 / 180);
 
-    app.scene.getObjectByName("neptune").rotation.y += delta * 2.25 * (3.14159 / 180) * speed;
+    app.scene.getObjectByName("neptune").rotation.y += delta * 2.25 * (3.14159 / 180);
 
 }
 
@@ -211,53 +236,53 @@ function planetMovement(speed)
     const mercury = app.scene.getObjectByName("mercury");
     w = 1.6 * (3.14159 / 180);
     r = 11650;
-    mercury.position.x = r * Math.cos(w * speed * elapsedTime);
-    mercury.position.z = -r * Math.sin(w * speed * elapsedTime);
+    mercury.position.x = r * Math.cos(w * elapsedTime);
+    mercury.position.z = -r * Math.sin(w * elapsedTime);
 
     const venus = app.scene.getObjectByName("venus");
     w = 1.2 * (3.14159 / 180);
     r = 13150;
-    venus.position.x = r * Math.cos(w * speed * elapsedTime);
-    venus.position.z = -r * Math.sin(w * speed * elapsedTime);
+    venus.position.x = r * Math.cos(w * elapsedTime);
+    venus.position.z = -r * Math.sin(w * elapsedTime);
 
     const earth = app.scene.getObjectByName("earth");
     w = 1 * (3.14159 / 180);
     r = 15650;
-    earth.position.x = r * Math.cos(w * speed * elapsedTime);
-    earth.position.z = -r * Math.sin(w * speed * elapsedTime);
+    earth.position.x = r * Math.cos(w * elapsedTime);
+    earth.position.z = -r * Math.sin(w * elapsedTime);
 
     const mars = app.scene.getObjectByName("mars");
     w = 0.8 * (3.14159 / 180);
     r = 18150;
-    mars.position.x = r * Math.cos(w * speed * elapsedTime);
-    mars.position.z = -r * Math.sin(w * speed * elapsedTime);
+    mars.position.x = r * Math.cos(w * elapsedTime);
+    mars.position.z = -r * Math.sin(w * elapsedTime);
 
     const jupiter = app.scene.getObjectByName("jupiter");
     w = 0.4 * (3.14159 / 180);
     r = 21650;
-    jupiter.position.x = r * Math.cos(w * speed * elapsedTime);
-    jupiter.position.z = -r * Math.sin(w * speed * elapsedTime);
+    jupiter.position.x = r * Math.cos(w * elapsedTime);
+    jupiter.position.z = -r * Math.sin(w * elapsedTime);
 
     const saturn = app.scene.getObjectByName("saturn");
     const saturn_ring = app.scene.getObjectByName("saturn_ring");
     w = 0.3 * (3.14159 / 180);
     r = 25650;
-    saturn.position.x = r * Math.cos(w * speed * elapsedTime);
-    saturn.position.z = -r * Math.sin(w * speed * elapsedTime);
+    saturn.position.x = r * Math.cos(w * elapsedTime);
+    saturn.position.z = -r * Math.sin(w * elapsedTime);
     saturn_ring.position.x = saturn.position.x;
     saturn_ring.position.z = saturn.position.z;
 
     const uranus = app.scene.getObjectByName("uranus");
     w = 0.2 * (3.14159 / 180);
     r = 29150;
-    uranus.position.x = r * Math.cos(w * speed * elapsedTime);
-    uranus.position.z = -r * Math.sin(w * speed * elapsedTime);
+    uranus.position.x = r * Math.cos(w * elapsedTime);
+    uranus.position.z = -r * Math.sin(w * elapsedTime);
 
     const neptune = app.scene.getObjectByName("neptune");
     w = 0.18 * (3.14159 / 180);
     r = 32150;
-    neptune.position.x = r * Math.cos(w * speed * elapsedTime);
-    neptune.position.z = -r * Math.sin(w * speed * elapsedTime);
+    neptune.position.x = r * Math.cos(w * elapsedTime);
+    neptune.position.z = -r * Math.sin(w * elapsedTime);
 }
 
 function createPlanetGeometry()

@@ -2,6 +2,8 @@
 
 In order to run, you must have node.js installed, which can be found here: https://nodejs.org/en/download.
 
+Make sure node is in your system path
+
 Once installed, navigate to the project directory in your terminal and run these commands in the order shown:
 
 npm install --save three

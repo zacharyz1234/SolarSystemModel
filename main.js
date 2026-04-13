@@ -88,6 +88,7 @@ const init = () => {
     createOrbitRings();
 
     app.camera.position.x = 40000;
+    
 
     const sunLight = new THREE.PointLight(0xffffff, 3, 0, 0);
     sunLight.position.set(0, 0, 0);
@@ -105,11 +106,15 @@ const init = () => {
 let speed = 10;
 let pause = false;
 
+//Sets speed to the value indicated by the slider in
+//index.html
 document.getElementById("speedSlider").addEventListener("input", (e) =>
 {
     speed = e.target.value;
 })
 
+//Updates the pause boolean if the pause button
+//is clicked. Also stops the timer if it is clicked
 document.getElementById("pauseButton").addEventListener("click", () =>
 {
     pause = !pause;
@@ -138,7 +143,7 @@ const render = () => {
         const delta = time.getDelta();
         elapsedTime += delta * speed;
         planetMovement(speed);
-        planetRotation(speed);
+        planetRotation(speed, delta);
     }
     
     
@@ -200,7 +205,7 @@ function createOrbitRings()
     app.scene.add(orbitRingNep);
 }
 
-function planetRotation(speed)
+function planetRotation(speed, delta)
 {
     app.scene.getObjectByName("sun").rotation.y += delta * 0.01 * (3.14159 / 180) * speed;
 

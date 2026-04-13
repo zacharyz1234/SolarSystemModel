@@ -5,15 +5,7 @@ import { Timer } from 'three';
 //TO DO
 
 /*
-1. Create all planets - DONE
-    Earth
-    Mars
-    Jupiter (Only doing the major moons unless I get REALLY bored)
-    Saturn (Only doing major moons)
-    Uranus
-    Neptune
-
-2. Create all moons
+Create all moons
     The Moon
 
     Deimos
@@ -40,17 +32,24 @@ import { Timer } from 'three';
     Nereid
     Larissa
 
-3. Figure out how to code the rings of saturn - DONE
-
 4. Code in rotation for everything
+    orbitRings will rotate with planets
 
 5. Code in movement for everything
+    Planets need proper rotation
+    
 
 6. Lighting - DONE
 
 7. Add UI elements
     Speed up button
     pause button
+    Orbit ring toggle
+    Pop out menu that lets you click a planet
+
+8. Ability to click the planets themselves
+
+9. Program my own camera movement
 
 */
 
@@ -177,56 +176,56 @@ function createOrbitRings()
     const orbitMerGeometry = new THREE.RingGeometry(11645, 11655, 128);
     const orbitRingMaterial = new THREE.MeshBasicMaterial({color: 0x808080, transparent: true, side: THREE.DoubleSide})
     const orbitRingMer = new THREE.Mesh(orbitMerGeometry, orbitRingMaterial);
-    orbitRingMer.rotation.x = Math.PI / 2;
+    orbitRingMer.rotation.x = Math.PI / 2 - (7.0 * Math.PI / 180);
     orbitRingMer.name = "orbitMer";
     app.scene.add(orbitRingMer);
 
     //Venus
     const orbitVenGeometry = new THREE.RingGeometry(13145, 13155, 128);
     const orbitRingVen = new THREE.Mesh(orbitVenGeometry, orbitRingMaterial);
-    orbitRingVen.rotation.x = Math.PI / 2;
+    orbitRingVen.rotation.x = Math.PI / 2 - (3.4 * Math.PI / 180);
     orbitRingVen.name = "orbitVen";
     app.scene.add(orbitRingVen);
 
     //Earth
     const orbitEarthGeometry = new THREE.RingGeometry(15645, 15655, 128);
     const orbitRingEarth = new THREE.Mesh(orbitEarthGeometry, orbitRingMaterial);
-    orbitRingEarth.rotation.x = Math.PI / 2;
+    orbitRingEarth.rotation.x = Math.PI / 2 - (0 * Math.PI / 180);
     orbitRingEarth.name = "orbitEarth";
     app.scene.add(orbitRingEarth);
 
     //Mars
     const orbitMarsGeometry = new THREE.RingGeometry(18145, 18155, 128);
     const orbitRingMars = new THREE.Mesh(orbitMarsGeometry, orbitRingMaterial);
-    orbitRingMars.rotation.x = Math.PI / 2;
+    orbitRingMars.rotation.x = Math.PI / 2 - (1.85 * Math.PI / 180);
     orbitRingMars.name = "orbitMars";
     app.scene.add(orbitRingMars);
 
     //Jupiter
     const orbitJupGeometry = new THREE.RingGeometry(21645, 21655, 128);
     const orbitRingJup = new THREE.Mesh(orbitJupGeometry, orbitRingMaterial);
-    orbitRingJup.rotation.x = Math.PI / 2;
+    orbitRingJup.rotation.x = Math.PI / 2 - (1.3 * Math.PI / 180);
     orbitRingJup.name = "orbitJup";
     app.scene.add(orbitRingJup);
 
     //Saturn
     const orbitSatGeometry = new THREE.RingGeometry(25655, 25665, 128);
     const orbitRingSat = new THREE.Mesh(orbitSatGeometry, orbitRingMaterial);
-    orbitRingSat.rotation.x = Math.PI / 2;
+    orbitRingSat.rotation.x = Math.PI / 2 - (2.49 * Math.PI / 180);
     orbitRingSat.name = "orbitSat";
     app.scene.add(orbitRingSat);
 
     //Uranus
     const orbitUraGeometry = new THREE.RingGeometry(29145, 29155, 128);
     const orbitRingUra = new THREE.Mesh(orbitUraGeometry, orbitRingMaterial);
-    orbitRingUra.rotation.x = Math.PI / 2;
+    orbitRingUra.rotation.x = Math.PI / 2 - (0.77 * Math.PI / 180);
     orbitRingUra.name = "orbitUra";
     app.scene.add(orbitRingUra);
 
     //Neptune
     const orbitNepGeometry = new THREE.RingGeometry(32145, 32155, 128);
     const orbitRingNep = new THREE.Mesh(orbitNepGeometry, orbitRingMaterial);
-    orbitRingNep.rotation.x = Math.PI / 2;
+    orbitRingNep.rotation.x = Math.PI / 2 - (1.77 * Math.PI / 180);
     orbitRingNep.name = "orbitNep";
     app.scene.add(orbitRingNep);
 }
@@ -253,66 +252,33 @@ function planetRotation(speed, delta)
 
 }
 
+const planetData = [
+    {name: "mercury", w: 1.6, r: 11650, inc: 7.0},
+    {name: "venus", w: 1.2, r: 13150, inc: 3.4},
+    {name: "earth", w: 1, r: 15650, inc: 0},
+    {name: "mars", w: 0.8, r: 18150, inc: 1.85},
+    {name: "jupiter", w: 0.4, r: 21650, inc: 1.3},
+    {name: "saturn", w: 0.3, r: 25650, inc: 2.49},
+    {name: "uranus", w: 0.2, r: 29150, inc: 0.77},
+    {name: "neptune", w: 0.18, r: 32150, inc: 1.77},
+]
+
 function planetMovement(speed)
 {
-    //This list holds all of the base x positions
-    //of each planet so it can be used to determine
-    //rotation around the sun. The numbers are in order
-    //of planets from the sun out.
-    let r;
-    let w;
-
-
-    const mercury = app.scene.getObjectByName("mercury");
-    w = 1.6 * (3.14159 / 180);
-    r = 11650;
-    mercury.position.x = r * Math.cos(w * elapsedTime);
-    mercury.position.z = -r * Math.sin(w * elapsedTime);
-
-    const venus = app.scene.getObjectByName("venus");
-    w = 1.2 * (3.14159 / 180);
-    r = 13150;
-    venus.position.x = r * Math.cos(w * elapsedTime);
-    venus.position.z = -r * Math.sin(w * elapsedTime);
-
-    const earth = app.scene.getObjectByName("earth");
-    w = 1 * (3.14159 / 180);
-    r = 15650;
-    earth.position.x = r * Math.cos(w * elapsedTime);
-    earth.position.z = -r * Math.sin(w * elapsedTime);
-
-    const mars = app.scene.getObjectByName("mars");
-    w = 0.8 * (3.14159 / 180);
-    r = 18150;
-    mars.position.x = r * Math.cos(w * elapsedTime);
-    mars.position.z = -r * Math.sin(w * elapsedTime);
-
-    const jupiter = app.scene.getObjectByName("jupiter");
-    w = 0.4 * (3.14159 / 180);
-    r = 21650;
-    jupiter.position.x = r * Math.cos(w * elapsedTime);
-    jupiter.position.z = -r * Math.sin(w * elapsedTime);
+    planetData.forEach(p => 
+    {
+        const obj = app.scene.getObjectByName(p.name);
+        const w = p.w * (Math.PI / 180);
+        const inc = p.inc * (Math.PI / 180);
+        const angle = w * elapsedTime;
+        obj.position.x = p.r * Math.cos(angle);
+        obj.position.z = -p.r * Math.sin(angle) * Math.cos(inc);
+        obj.position.y = p.r * Math.sin(angle) * Math.sin(inc);
+    });
 
     const saturn = app.scene.getObjectByName("saturn");
-    const saturn_ring = app.scene.getObjectByName("saturn_ring");
-    w = 0.3 * (3.14159 / 180);
-    r = 25650;
-    saturn.position.x = r * Math.cos(w * elapsedTime);
-    saturn.position.z = -r * Math.sin(w * elapsedTime);
-    saturn_ring.position.x = saturn.position.x;
-    saturn_ring.position.z = saturn.position.z;
-
-    const uranus = app.scene.getObjectByName("uranus");
-    w = 0.2 * (3.14159 / 180);
-    r = 29150;
-    uranus.position.x = r * Math.cos(w * elapsedTime);
-    uranus.position.z = -r * Math.sin(w * elapsedTime);
-
-    const neptune = app.scene.getObjectByName("neptune");
-    w = 0.18 * (3.14159 / 180);
-    r = 32150;
-    neptune.position.x = r * Math.cos(w * elapsedTime);
-    neptune.position.z = -r * Math.sin(w * elapsedTime);
+    const ring = app.scene.getObjectByName("saturn_ring");
+    ring.position.copy(saturn.position);
 }
 
 function createPlanetGeometry()

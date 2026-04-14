@@ -159,7 +159,7 @@ const render = () => {
         const delta = time.getDelta();
         elapsedTime += delta * speed;
         planetMovement(speed);
-        //moonMovement();
+        moonMovement();
         planetRotation(speed, delta);
     }
     
@@ -441,7 +441,7 @@ function createMoonGeometry()
     app.scene.add(deimosSphere);
 
     //Phobos
-    const phobosGeometry = new THREE.SphereGeometry(20, 32, 32);
+    const phobosGeometry = new THREE.SphereGeometry(15, 32, 32);
     const phobosTexture = new THREE.TextureLoader().load("phobos.jpg");
     const phobosMaterial = new THREE.MeshStandardMaterial({map: phobosTexture});
     const phobosSphere = new THREE.Mesh(phobosGeometry, phobosMaterial);
@@ -451,7 +451,7 @@ function createMoonGeometry()
     app.scene.add(phobosSphere);
 
     //IO
-    const ioGeometry = new THREE.SphereGeometry(20, 32, 32);
+    const ioGeometry = new THREE.SphereGeometry(80, 32, 32);
     const ioTexture = new THREE.TextureLoader().load("io.jpeg");
     const ioMaterial = new THREE.MeshStandardMaterial({map: ioTexture});
     const ioSphere = new THREE.Mesh(ioGeometry, ioMaterial);
@@ -461,7 +461,7 @@ function createMoonGeometry()
     app.scene.add(ioSphere);
 
     //Europa
-    const eurGeometry = new THREE.SphereGeometry(20, 32, 32);
+    const eurGeometry = new THREE.SphereGeometry(70, 32, 32);
     const eurTexture = new THREE.TextureLoader().load("europa.jpg");
     const eurMaterial = new THREE.MeshStandardMaterial({map: eurTexture});
     const eurSphere = new THREE.Mesh(eurGeometry, eurMaterial);
@@ -471,7 +471,7 @@ function createMoonGeometry()
     app.scene.add(eurSphere);
 
     //Ganymede
-    const ganyGeometry = new THREE.SphereGeometry(20, 32, 32);
+    const ganyGeometry = new THREE.SphereGeometry(100, 32, 32);
     const ganyTexture = new THREE.TextureLoader().load("ganymede.jpg");
     const ganyMaterial = new THREE.MeshStandardMaterial({map: ganyTexture});
     const ganySphere = new THREE.Mesh(ganyGeometry, ganyMaterial);
@@ -481,7 +481,7 @@ function createMoonGeometry()
     app.scene.add(ganySphere);
 
     //Callisto
-    const calGeometry = new THREE.SphereGeometry(20, 32, 32);
+    const calGeometry = new THREE.SphereGeometry(90, 32, 32);
     const calTexture = new THREE.TextureLoader().load("callisto.jpg");
     const calMaterial = new THREE.MeshStandardMaterial({map: calTexture});
     const calSphere = new THREE.Mesh(calGeometry, calMaterial);
@@ -491,7 +491,7 @@ function createMoonGeometry()
     app.scene.add(calSphere);
 
     //Titan
-    const titanGeometry = new THREE.SphereGeometry(20, 32, 32);
+    const titanGeometry = new THREE.SphereGeometry(90, 32, 32);
     const titanTexture = new THREE.TextureLoader().load("titan.jpg");
     const titanMaterial = new THREE.MeshStandardMaterial({map: titanTexture});
     const titanSphere = new THREE.Mesh(titanGeometry, titanMaterial);
@@ -499,6 +499,126 @@ function createMoonGeometry()
     titanSphere.castShadow = true;
     titanSphere.receiveShadow = true;
     app.scene.add(titanSphere);
+
+    //Enceladus
+    const encGeometry = new THREE.SphereGeometry(30, 32, 32);
+    const encTexture = new THREE.TextureLoader().load("enceladus.jpg");
+    const encMaterial = new THREE.MeshStandardMaterial({map: encTexture});
+    const encSphere = new THREE.Mesh(encGeometry, encMaterial);
+    encSphere.name = "enceladus";
+    encSphere.castShadow = true;
+    encSphere.receiveShadow = true;
+    app.scene.add(encSphere);
+
+    //Iapetus
+    const iapGeometry = new THREE.SphereGeometry(40, 32, 32);
+    const iapTexture = new THREE.TextureLoader().load("iapetus.jpg");
+    const iapMaterial = new THREE.MeshStandardMaterial({map: iapTexture});
+    const iapSphere = new THREE.Mesh(iapGeometry, iapMaterial);
+    iapSphere.name = "iapetus";
+    iapSphere.castShadow = true;
+    iapSphere.receiveShadow = true;
+    app.scene.add(iapSphere);
+
+    //Mimas
+    const mimGeometry = new THREE.SphereGeometry(25, 32, 32);
+    const mimTexture = new THREE.TextureLoader().load("mimas.jpg");
+    const mimMaterial = new THREE.MeshStandardMaterial({map: mimTexture});
+    const mimSphere = new THREE.Mesh(mimGeometry, mimMaterial);
+    mimSphere.name = "mimas";
+    mimSphere.castShadow = true;
+    mimSphere.receiveShadow = true;
+    app.scene.add(mimSphere);
+
+    //Titania
+    const titaniaGeometry = new THREE.SphereGeometry(50, 32, 32);
+    const titaniaTexture = new THREE.TextureLoader().load("titania.jpg");
+    const titaniaMaterial = new THREE.MeshStandardMaterial({map: titaniaTexture});
+    const titaniaSphere = new THREE.Mesh(titaniaGeometry, titaniaMaterial);
+    titaniaSphere.name = "titania";
+    titaniaSphere.castShadow = true;
+    titaniaSphere.receiveShadow = true;
+    app.scene.add(titaniaSphere);
+
+    //Oberon
+    const obeGeometry = new THREE.SphereGeometry(45, 32, 32);
+    const obeTexture = new THREE.TextureLoader().load("oberon.png");
+    const obeMaterial = new THREE.MeshStandardMaterial({map: obeTexture});
+    const obeSphere = new THREE.Mesh(obeGeometry, obeMaterial);
+    obeSphere.name = "oberon";
+    obeSphere.castShadow = true;
+    obeSphere.receiveShadow = true;
+    app.scene.add(obeSphere);
+
+    //Ariel
+    const ariGeometry = new THREE.SphereGeometry(35, 32, 32);
+    const ariTexture = new THREE.TextureLoader().load("ariel.png");
+    const ariMaterial = new THREE.MeshStandardMaterial({map: ariTexture});
+    const ariSphere = new THREE.Mesh(ariGeometry, ariMaterial);
+    ariSphere.name = "ariel";
+    ariSphere.castShadow = true;
+    ariSphere.receiveShadow = true;
+    app.scene.add(ariSphere);
+
+    //Umbriel
+    const umbGeometry = new THREE.SphereGeometry(35, 32, 32);
+    const umbTexture = new THREE.TextureLoader().load("umbriel.png");
+    const umbMaterial = new THREE.MeshStandardMaterial({map: umbTexture});
+    const umbSphere = new THREE.Mesh(umbGeometry, umbMaterial);
+    umbSphere.name = "umbriel";
+    umbSphere.castShadow = true;
+    umbSphere.receiveShadow = true;
+    app.scene.add(umbSphere);
+
+    //Miranda
+    const mirGeometry = new THREE.SphereGeometry(20, 32, 32);
+    const mirTexture = new THREE.TextureLoader().load("miranda.jpg");
+    const mirMaterial = new THREE.MeshStandardMaterial({map: mirTexture});
+    const mirSphere = new THREE.Mesh(mirGeometry, mirMaterial);
+    mirSphere.name = "miranda";
+    mirSphere.castShadow = true;
+    mirSphere.receiveShadow = true;
+    app.scene.add(mirSphere);
+
+    //Triton
+    const triGeometry = new THREE.SphereGeometry(60, 32, 32);
+    const triTexture = new THREE.TextureLoader().load("triton.jpg");
+    const triMaterial = new THREE.MeshStandardMaterial({map: triTexture});
+    const triSphere = new THREE.Mesh(triGeometry, triMaterial);
+    triSphere.name = "triton";
+    triSphere.castShadow = true;
+    triSphere.receiveShadow = true;
+    app.scene.add(triSphere);
+
+    //Proteus
+    const proGeometry = new THREE.SphereGeometry(25, 32, 32);
+    const proTexture = new THREE.TextureLoader().load("proteus.jpg");
+    const proMaterial = new THREE.MeshStandardMaterial({map: proTexture});
+    const proSphere = new THREE.Mesh(proGeometry, proMaterial);
+    proSphere.name = "proteus";
+    proSphere.castShadow = true;
+    proSphere.receiveShadow = true;
+    app.scene.add(proSphere);
+
+    //Nereid
+    const nerGeometry = new THREE.SphereGeometry(20, 32, 32);
+    const nerTexture = new THREE.TextureLoader().load("nereid.jpg");
+    const nerMaterial = new THREE.MeshStandardMaterial({map: nerTexture});
+    const nerSphere = new THREE.Mesh(nerGeometry, nerMaterial);
+    nerSphere.name = "nereid";
+    nerSphere.castShadow = true;
+    nerSphere.receiveShadow = true;
+    app.scene.add(nerSphere);
+
+    //Larissa
+    const larGeometry = new THREE.SphereGeometry(15, 32, 32);
+    const larTexture = new THREE.TextureLoader().load("larissa.jpg");
+    const larMaterial = new THREE.MeshStandardMaterial({map: larTexture});
+    const larSphere = new THREE.Mesh(larGeometry, larMaterial);
+    larSphere.name = "larissa";
+    larSphere.castShadow = true;
+    larSphere.receiveShadow = true;
+    app.scene.add(larSphere);
 }
 
 const moonData = 

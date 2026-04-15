@@ -69,6 +69,24 @@ let time = new THREE.Clock;
 //being able to move on the circular radius
 let elapsedTime = 0;
 
+//The point the camera should point around
+let cameraTarger = new THREE.Vector3(0, 0, 0);
+
+//Holds the planet name that the camera is locked
+//on to if it is locked onto a planet. It is
+//initialized as null since it isn't locked at
+//start of the program
+let lockedPlanet = null;
+
+//Stores the orbit angle and distance
+let spherical = new THREE.Spherical();
+
+//Boolean to let the code know if the
+//camera is being dragged by mouse
+let isDragging = false;
+
+let prevMouse = {x: 0, y: 0}
+
 const init = () => {
 
     app.renderer = new THREE.WebGLRenderer();
@@ -88,6 +106,7 @@ const init = () => {
     createOrbitRings();
 
     app.camera.position.x = 40000;
+    spherical.setFromVector3(app.camera.position);
     
 
     const sunLight = new THREE.PointLight(0xffffff, 3, 0, 0);

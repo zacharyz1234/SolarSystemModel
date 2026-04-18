@@ -70,13 +70,13 @@ let time = new THREE.Clock;
 let elapsedTime = 0;
 
 //The point the camera should point around
-let cameraTarger = new THREE.Vector3(0, 0, 0);
+let cameraTarget = new THREE.Vector3(0, 0, 0);
 
 //Holds the planet name that the camera is locked
 //on to if it is locked onto a planet. It is
 //initialized as null since it isn't locked at
 //start of the program
-let lockedPlanet = null;
+let lockedPlanet = "earth";
 
 //Stores the orbit angle and distance
 let spherical = new THREE.Spherical();
@@ -107,6 +107,42 @@ const init = () => {
 
     app.camera.position.x = 40000;
     spherical.setFromVector3(app.camera.position);
+
+    window.addEventListener("mousedown", (e) =>
+    {
+        isDragging = true;
+
+        //Stores where the mouse is in the last
+        //frame while the mouse is clicked
+        prevMouse.x = e.clientX;
+        prevMouse.y = e.clientY;
+    })
+
+    window.addEventListener("mouseup", () =>
+    {
+        isDragging = false;
+    })
+
+    window.addEventListener("mousemove", (e) =>
+    {
+        if(!isDragging) return;
+
+        //Finds the change in position
+        deltaX = e.clientX - prevMouse.x;
+        deltaY = e.clientY - prevMouse.y;
+
+        //Sets the previous values to the current ones
+        prevMouse.x = e.clientX;
+        prevMouse.y = e.clientY;
+
+        //Constant to hold the rotation speed of the camera
+        const rotationSpeed = 0.01
+
+        spherical.theta -= deltaX * rotationSpeed;
+        spherical.phi -= deltaY * rotationSpeed;
+
+        spherical.phi = Math.max(0.01, Math.min(Math.PI - 0.01, spherical.phi));
+    })
     
 
     const sunLight = new THREE.PointLight(0xffffff, 3, 0, 0);
@@ -125,6 +161,11 @@ const init = () => {
 let speed = 10;
 let pause = false;
 let ringsVisible = true;
+
+let deltaX = 0;
+let deltaY = 0;
+let targetSpherical = new THREE.Spherical();
+let currentSpherical = new THREE.Spherical();
 
 //Sets speed to the value indicated by the slider in
 //index.html
@@ -148,7 +189,7 @@ document.getElementById("pauseButton").addEventListener("click", () =>
     {
         time.start();
     }
-})
+}) 
 
 document.getElementById("orbitToggle").addEventListener("click", () =>
 {
@@ -182,6 +223,20 @@ const render = () => {
         planetRotation(speed, delta);
     }
     
+    if(lockedPlanet)
+    {
+        const obj = app.scene.getObjectByName(lockedPlanet);
+        if(obj)
+        {
+            cameraTarget.copy(obj.position)
+        }
+    }
+
+    
+    const offset = new THREE.Vector3().setFromSpherical(spherical);
+    app.camera.position.copy(cameraTarget).add(offset);
+    app.camera.lookAt(cameraTarget);
+
     app.renderer.render(app.scene, app.camera);
     app.controls.update();
 };
@@ -661,7 +716,7 @@ const moonData =
     {name: "oberon", parent: "uranus", w: 1.4, r: 1050, inc: 0.07},
     {name: "ariel", parent: "uranus", w: 5.5, r: 700, inc: 0.04},
     {name: "umbriel", parent: "uranus", w: 3.6, r: 800, inc: 0.13},
-    {name: "miranda", parent: "uranus", w: 9, r: 600, inc: 4.34},
+    {name: "miranda", parent: "uranus", w: 9, r: 650, inc: 4.34},
 
     {name: "triton", parent: "neptune", w: 5, r: 900, inc: 157},
     {name: "proteus", parent: "neptune", w: 14, r: 700, inc: 0.55},

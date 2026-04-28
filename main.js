@@ -87,6 +87,8 @@ let isDragging = false;
 
 let prevMouse = {x: 0, y: 0}
 
+const keysHeld = {w: false, a: false, s: false, d: false}
+
 const init = () => {
 
     app.renderer = new THREE.WebGLRenderer();
@@ -149,8 +151,49 @@ const init = () => {
         e.preventDefault();
         spherical.radius += e.deltaY * 5;
         spherical.radius = Math.max(500, Math.min(200000, spherical.radius));
-    }, {passive: false})
+    }, 
+    {passive: false})
     
+    window.addEventListener("keydown", (e) =>
+    {
+        if(e.key === "w")
+        {
+            keysHeld.w = true;
+        }
+        if(e.key === "a")
+        {
+            keysHeld.a = true;
+        }
+        if(e.key === "s")
+        {
+            keysHeld.s = true;
+        }
+        if(e.key === "d")
+        {
+            keysHeld.d = true;
+        }
+    })
+
+    window.addEventListener("keyup", (e) =>
+    {
+        if(e.key === "w")
+        {
+            keysHeld.w = false;
+        }
+        if(e.key === "a")
+        {
+            keysHeld.a = false;
+        }
+        if(e.key === "s")
+        {
+            keysHeld.s = false;
+        }
+        if(e.key === "d")
+        {
+            keysHeld.d = false;
+        }
+    })
+        
 
     const sunLight = new THREE.PointLight(0xffffff, 3, 0, 0);
     sunLight.position.set(0, 0, 0);
@@ -214,6 +257,9 @@ const render = () => {
 
     requestAnimationFrame(render);
 
+    //Camera should be able to move even if code isn't paused
+    moveCamera()
+
     if(!pause)
     {
         // Updates the time to hold the delta in its
@@ -242,6 +288,52 @@ const render = () => {
     app.renderer.render(app.scene, app.camera);
     //app.controls.update();
 };
+
+function moveCamera()
+{
+    const camSpeed = 500;
+
+    //Calculate the forward direction
+    const forward = new THREE.Vector3
+    (
+        Math.sin(spherical.theta),
+        0,
+        Math.cos(spherical.theta)
+    );
+
+    //Calulate the sideways direction, which is just forward rotated 90 degrees
+    const sideways = new THREE.Vector3
+    (
+        Math.sin(spherical.theta + Math.PI / 2),
+        0,
+        Math.cos(spherical.theta + Math.PI / 2)
+    );
+
+    if(keysHeld.w)
+    {
+        cameraTarget.addScaledVector(forward, -camSpeed);
+        lockedPlanet = null;
+    }
+    if(keysHeld.s)
+    {
+        cameraTarget.addScaledVector(forward, camSpeed);
+        lockedPlanet = null;
+    }
+    if(keysHeld.d)
+    {
+        cameraTarget.addScaledVector(sideways, camSpeed);
+        lockedPlanet = null;
+    }
+    if(keysHeld.a)
+    {
+        cameraTarget.addScaledVector(sideways, -camSpeed);
+        lockedPlanet = null;
+    }
+
+    
+
+
+}
 
 //Creating rings equal to the radius of each planet so it
 //is a little nicer to look at

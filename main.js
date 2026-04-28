@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/Addons.js';
-import { Timer } from 'three';
+//import { OrbitControls } from 'three/examples/jsm/Addons.js';
+//import { Timer } from 'three';
 
 //TO DO
 
@@ -96,7 +96,7 @@ const init = () => {
 
     app.scene = new THREE.Scene();
     app.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000000);
-    app.controls = new OrbitControls(app.camera, app.renderer.domElement);
+    //app.controls = new OrbitControls(app.camera, app.renderer.domElement);
 
     app.renderer.shadowMap.enabled = true;
     app.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -128,8 +128,8 @@ const init = () => {
         if(!isDragging) return;
 
         //Finds the change in position
-        deltaX = e.clientX - prevMouse.x;
-        deltaY = e.clientY - prevMouse.y;
+        let deltaX = e.clientX - prevMouse.x;
+        let deltaY = e.clientY - prevMouse.y;
 
         //Sets the previous values to the current ones
         prevMouse.x = e.clientX;
@@ -143,6 +143,13 @@ const init = () => {
 
         spherical.phi = Math.max(0.01, Math.min(Math.PI - 0.01, spherical.phi));
     })
+
+    window.addEventListener("wheel", (e) =>
+    {
+        e.preventDefault();
+        spherical.radius += e.deltaY * 5;
+        spherical.radius = Math.max(500, Math.min(200000, spherical.radius));
+    }, {passive: false})
     
 
     const sunLight = new THREE.PointLight(0xffffff, 3, 0, 0);
@@ -161,11 +168,6 @@ const init = () => {
 let speed = 10;
 let pause = false;
 let ringsVisible = true;
-
-let deltaX = 0;
-let deltaY = 0;
-let targetSpherical = new THREE.Spherical();
-let currentSpherical = new THREE.Spherical();
 
 //Sets speed to the value indicated by the slider in
 //index.html
@@ -238,7 +240,7 @@ const render = () => {
     app.camera.lookAt(cameraTarget);
 
     app.renderer.render(app.scene, app.camera);
-    app.controls.update();
+    //app.controls.update();
 };
 
 //Creating rings equal to the radius of each planet so it

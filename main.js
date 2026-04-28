@@ -5,52 +5,14 @@ import * as THREE from 'three';
 //TO DO
 
 /*
-Create all moons
-    The Moon
 
-    Deimos
-    Phobos
-
-    IO
-    Europa
-    Ganymede
-    Callisto
-
-    Titan
-    Enceladus
-    Iapetus
-    Mimas
-
-    Titania
-    Oberon
-    Ariel
-    Umbriel
-    Miranda
-
-    Triton
-    Proteus
-    Nereid
-    Larissa
-
-4. Code in rotation for everything
-    orbitRings will rotate with planets
-
-5. Code in movement for everything
-    Planets need proper rotation
-    
-
-6. Lighting - DONE
-
-7. Add UI elements
+7. Add UI elements and make them look good
     Speed up button
     pause button
     Orbit ring toggle
     Pop out menu that lets you click a planet
 
 8. Ability to click the planets themselves
-
-9. Program my own camera movement
-
 */
 
 
@@ -87,7 +49,7 @@ let isDragging = false;
 
 let prevMouse = {x: 0, y: 0}
 
-const keysHeld = {w: false, a: false, s: false, d: false}
+const keysHeld = {w: false, a: false, s: false, d: false, q: false, e: false}
 
 const init = () => {
 
@@ -112,6 +74,11 @@ const init = () => {
 
     window.addEventListener("mousedown", (e) =>
     {
+        if(e.target !== app.renderer.domElement)
+        {
+            return;
+        }
+
         isDragging = true;
 
         //Stores where the mouse is in the last
@@ -172,6 +139,14 @@ const init = () => {
         {
             keysHeld.d = true;
         }
+        if(e.key === "q")
+        {
+            keysHeld.q = true;
+        }
+        if(e.key === "e")
+        {
+            keysHeld.e = true;
+        }
     })
 
     window.addEventListener("keyup", (e) =>
@@ -192,8 +167,49 @@ const init = () => {
         {
             keysHeld.d = false;
         }
+        if(e.key === "q")
+        {
+            keysHeld.q = false;
+        }
+        if(e.key === "e")
+        {
+            keysHeld.e = false;
+        }
     })
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    const planetNames = ["mercury", "venus", "earth", "mars", "jupiter",
+        "saturn", "uranus", "neptune"];
         
+    window.addEventListener("click", (e) =>
+    {
+        if(e.target !== app.renderer.domElement)
+        {
+            return;
+        }
+
+        //Converts the mouse position to normalized device coords
+        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, app.camera);
+
+        //Gets the actual planet mesh objects
+        const planetMeshes = planetNames.map
+        (name => app.scene.getObjectByName(name)).filter(Boolean);
+
+        const intersects = raycaster.intersectObjects(planetMeshes);
+
+        if(intersects.length > 0)
+        {
+            const clicked = intersects[0].object;
+            lockedPlanet = clicked.name;
+
+            spherical.radius = clicked.geometry.parameters.radius * 10;
+        }
+    })
 
     const sunLight = new THREE.PointLight(0xffffff, 3, 0, 0);
     sunLight.position.set(0, 0, 0);
@@ -291,7 +307,7 @@ const render = () => {
 
 function moveCamera()
 {
-    const camSpeed = 500;
+    const camSpeed = 300;
 
     //Calculate the forward direction
     const forward = new THREE.Vector3
@@ -308,6 +324,9 @@ function moveCamera()
         0,
         Math.cos(spherical.theta + Math.PI / 2)
     );
+
+    //Vector for upwards movement
+    const up = new THREE.Vector3(0, 1, 0);
 
     if(keysHeld.w)
     {
@@ -329,10 +348,16 @@ function moveCamera()
         cameraTarget.addScaledVector(sideways, -camSpeed);
         lockedPlanet = null;
     }
-
-    
-
-
+    if(keysHeld.q)
+    {
+        cameraTarget.addScaledVector(up, camSpeed);
+        lockedPlanet = null;
+    }
+    if(keysHeld.e)
+    {
+        cameraTarget.addScaledVector(up, -camSpeed);
+        lockedPlanet = null;
+    }
 }
 
 //Creating rings equal to the radius of each planet so it

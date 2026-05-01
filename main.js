@@ -1,11 +1,7 @@
 import * as THREE from 'three';
-//import { OrbitControls } from 'three/examples/jsm/Addons.js';
-//import { Timer } from 'three';
-
 //TO DO
 
 /*
-
 7. Add UI elements and make them look good
     Speed up button
     pause button
@@ -38,7 +34,7 @@ let cameraTarget = new THREE.Vector3(0, 0, 0);
 //on to if it is locked onto a planet. It is
 //initialized as null since it isn't locked at
 //start of the program
-let lockedPlanet = "earth";
+let lockedPlanet = null;
 
 //Stores the orbit angle and distance
 let spherical = new THREE.Spherical();
@@ -60,7 +56,6 @@ const init = () => {
 
     app.scene = new THREE.Scene();
     app.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000000);
-    //app.controls = new OrbitControls(app.camera, app.renderer.domElement);
 
     app.renderer.shadowMap.enabled = true;
     app.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -302,7 +297,6 @@ const render = () => {
     app.camera.lookAt(cameraTarget);
 
     app.renderer.render(app.scene, app.camera);
-    //app.controls.update();
 };
 
 function moveCamera()

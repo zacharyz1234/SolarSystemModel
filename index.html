@@ -4,52 +4,38 @@
 <head>
     <title>Zak's Solar System Model</title>
     <meta charset="UTF-8"/>
-    <link rel = "stylesheet" href = "styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <div id = "app"></div>
-    <script type = "module" src = "main.js"></script>
+    <div id="app"></div>
+    <script type="module" src="main.js"></script>
+
+    <!-- Controls top bar -->
+    <div id="topBar">
+        <button id="planetMenuToggle">☰ Planets</button>
+        <button id="pauseButton">Pause</button>
+        <div id="sliderContainer">
+            <label>Speed</label>
+            <input type="range" id="speedSlider" min="1" max="100" value="10">
+        </div>
+        <button id="orbitToggle">Toggle Orbit Rings</button>
+    </div>
+
+    <!-- Pop out menu -->
+    <div id="planetMenu">
+        <h3>Planets</h3>
+        <ul>
+            <li data-planet="mercury"><span class="planetDot" style="background:#b5b5b5"></span>Mercury</li>
+            <li data-planet="venus"><span class="planetDot" style="background:#e8cda0"></span>Venus</li>
+            <li data-planet="earth"><span class="planetDot" style="background:#2f6aad"></span>Earth</li>
+            <li data-planet="mars"><span class="planetDot" style="background:#c1440e"></span>Mars</li>
+            <li data-planet="jupiter"><span class="planetDot" style="background:#c88b3a"></span>Jupiter</li>
+            <li data-planet="saturn"><span class="planetDot" style="background:#e4d191"></span>Saturn</li>
+            <li data-planet="uranus"><span class="planetDot" style="background:#7de8e8"></span>Uranus</li>
+            <li data-planet="neptune"><span class="planetDot" style="background:#3f54ba"></span>Neptune</li>
+        </ul>
+    </div>
+
 </body>
-
-<!-- Pause button -->
- <div id = "app"></div>
- <div id = "pause">
-    <button id = "pauseButton">Pause</button>
- </div>
-
-
-<!-- Speed Slider -->
-
-<div id = "app"></div>
-<div id = "slider">
-    <input type = "range" id = "speedSlider" min = "1" max = "100" value= "10">
-</div>
-
-
-<!-- Orbit ring toggle -->
-
-<div id = "app"></div>
-<div id = "toggle">
-    <button id = "orbitToggle">Toggle Orbit Rings</button>
-</div>
-
-<!-- Pop out menu -->
-
-<button id = "planetMenuToggle">☰ Planets</button>
-
-<div id = "planetMenu">
-    <h3>Planets</h3>
-    <ul>
-        <li data-planet="mercury"><span class="planetDot" style="background:#b5b5b5"></span>Mercury</li>
-        <li data-planet="venus"><span class="planetDot" style="background:#e8cda0"></span>Venus</li>
-        <li data-planet="earth"><span class="planetDot" style="background:#2f6aad"></span>Earth</li>
-        <li data-planet="mars"><span class="planetDot" style="background:#c1440e"></span>Mars</li>
-        <li data-planet="jupiter"><span class="planetDot" style="background:#c88b3a"></span>Jupiter</li>
-        <li data-planet="saturn"><span class="planetDot" style="background:#e4d191"></span>Saturn</li>
-        <li data-planet="uranus"><span class="planetDot" style="background:#7de8e8"></span>Uranus</li>
-        <li data-planet="neptune"><span class="planetDot" style="background:#3f54ba"></span>Neptune</li>
-    </ul>
-    </ul>
-</div>
 </html>

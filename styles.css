@@ -1,107 +1,126 @@
-body
+* 
+{
+    box-sizing: border-box;
+}
+
+body 
 {
     font-family: sans-serif;
     margin: 0;
     padding: 0;
+    background: black;
+    overflow: hidden;
+}
 
-    #pause
-    {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        z-index: 10;
-    }
+/* Shared style for all buttons */
+button 
+{
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 13px;
+    white-space: nowrap;
+}
 
-    #slider
-    {
-        position: absolute;
-        top: 50px;
-        left: 20px;
-        z-index: 10;
-    }
+button:hover 
+{
+    background: rgba(255, 255, 255, 0.1);
+}
 
-    #toggle
-    {
-        position: absolute;
-        top: 80px;
-        left: 20px;
-        z-index: 10;
-    }
+/* Top bar holding all controls */
+#topBar 
+{
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-    #planetMenuToggle
-    {
-        position: fixed;
-        top: 25%;
-        left: 10px;
-        transform: translateY(-50%);
-        z-index: 10;
-        background-color: rgba(0, 0, 0, 0.6);
-        color: white;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        padding: 8px 12px;
-        cursor: pointer;
-        border-radius: 4px;
-    }
+/* Slider container */
+#sliderContainer 
+{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 6px 12px;
+    color: white;
+    font-size: 13px;
+}
 
-    #planetMenu
-    {
-        position: fixed;
-        top: 50%;
-        left: -200px;
-        transform: translateY(-50%);
-        width: 180px;
-        background: rgba(0, 0, 0, 0.7);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 4px;
-        padding: 10px;
-        z-index: 10;
-        transition: left 0.3s ease;
-        color: white;
-    }
+#speedSlider 
+{
+    width: 100px;
+    accent-color: white;
+}
 
-    #planetMenu.open
-    {
-        left: 10px;
-    }
+/* Planet menu */
+#planetMenu 
+{
+    position: fixed;
+    top: 55px;
+    left: -200px;
+    width: 180px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 10px;
+    z-index: 10;
+    transition: left 0.3s ease;
+    color: white;
+}
 
-    #planetMenu h3
-    {
-        margin: 0 0 10px 0;
-        font-size: 14px;
-        color: rgba(255, 255, 255, 0.2);
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
+#planetMenu.open 
+{
+    left: 10px;
+}
 
-    #planetMenu ul
-    {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
+#planetMenu h3 
+{
+    margin: 0 0 10px 0;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 
-    #planetMenu li
-    {
-        padding: 8px 6px;
-        cursor: pointer;
-        border-radius: 3px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 14px;
-    }
+#planetMenu ul 
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
 
-    #planetMenu li:hover
-    {
-        background: rgba(255, 255, 255, 0.1);
-    }
+#planetMenu li 
+{
+    padding: 8px 6px;
+    cursor: pointer;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
 
-    .planetDot
-    {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        display: inline-block;
-        flex-shrink: 0;
-    }
+#planetMenu li:hover 
+{
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.planetDot 
+{
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
 }

@@ -15,7 +15,7 @@ body
     #slider
     {
         position: absolute;
-        top: 40px;
+        top: 50px;
         left: 20px;
         z-index: 10;
     }
@@ -23,8 +23,85 @@ body
     #toggle
     {
         position: absolute;
-        top: 60px;
+        top: 80px;
         left: 20px;
         z-index: 10;
+    }
+
+    #planetMenuToggle
+    {
+        position: fixed;
+        top: 25%;
+        left: 10px;
+        transform: translateY(-50%);
+        z-index: 10;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 8px 12px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+    #planetMenu
+    {
+        position: fixed;
+        top: 50%;
+        left: -200px;
+        transform: translateY(-50%);
+        width: 180px;
+        background: rgba(0, 0, 0, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        padding: 10px;
+        z-index: 10;
+        transition: left 0.3s ease;
+        color: white;
+    }
+
+    #planetMenu.open
+    {
+        left: 10px;
+    }
+
+    #planetMenu h3
+    {
+        margin: 0 0 10px 0;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.2);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    #planetMenu ul
+    {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #planetMenu li
+    {
+        padding: 8px 6px;
+        cursor: pointer;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+    }
+
+    #planetMenu li:hover
+    {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .planetDot
+    {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        display: inline-block;
+        flex-shrink: 0;
     }
 }

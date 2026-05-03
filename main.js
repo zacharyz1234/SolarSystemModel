@@ -185,13 +185,16 @@ const init = () => {
             return;
         }
 
+        
+
         //Converts the mouse position to normalized device coords
         mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
         raycaster.setFromCamera(mouse, app.camera);
 
-        //Gets the actual planet mesh objects
+        //Gets the actual planet mesh objects so they can be clicked
+        //on and locked onto
         const planetMeshes = planetNames.map
         (name => app.scene.getObjectByName(name)).filter(Boolean);
 
@@ -200,9 +203,11 @@ const init = () => {
         if(intersects.length > 0)
         {
             const clicked = intersects[0].object;
-            lockedPlanet = clicked.name;
-
-            spherical.radius = clicked.geometry.parameters.radius * 10;
+            if(lockedPlanet != clicked.name)
+            {
+                lockedPlanet = clicked.name;
+                spherical.radius = clicked.geometry.parameters.radius * 10;
+            }
         }
     })
 
@@ -247,6 +252,7 @@ document.getElementById("pauseButton").addEventListener("click", () =>
     }
 }) 
 
+//Toggles the orbit rings with a button
 document.getElementById("orbitToggle").addEventListener("click", () =>
 {
     ringsVisible = !ringsVisible;
@@ -262,6 +268,27 @@ document.getElementById("orbitToggle").addEventListener("click", () =>
             ring.visible = ringsVisible;
         }
     }
+})
+
+//Toggles if the planet menu is open
+document.getElementById("planetMenuToggle").addEventListener("click", () =>
+{
+    document.getElementById("planetMenu").classList.toggle("open");
+})
+
+//Lets you click a planet to lock onto it from the menu
+document.querySelectorAll("#planetMenu li").forEach(item =>
+{
+    item.addEventListener("click", () =>
+    {
+        const planetName = item.getAttribute("data-planet");
+        const obj = app.scene.getObjectByName(planetName);
+        if(obj && planetName != lockedPlanet)
+        {
+            lockedPlanet = planetName;
+            spherical.radius = obj.geometry.parameters.radius * 10;
+        }
+    })
 })
 
 const render = () => {
@@ -440,6 +467,9 @@ function planetRotation(speed, delta)
 
 const planetData = 
 [
+    //W = speed
+    //R = radius
+    //Inc = Incline of the planet's orbit
     {name: "mercury", w: 1.6, r: 11650, inc: 7.0},
     {name: "venus", w: 1.2, r: 13150, inc: 3.4},
     {name: "earth", w: 1, r: 15650, inc: 0},
@@ -810,27 +840,33 @@ function createMoonGeometry()
 
 const moonData = 
 [
+    //Earth's moons
     {name: "moon", parent: "earth", w: 13.2, r: 500, inc: 5.14},
 
+    //Mars moons
     {name: "phobos", parent: "mars", w: 25, r: 200, inc: 1.08},
     {name: "deimos", parent: "mars", w: 6, r: 280, inc: 1.79},
 
+    //Jupiter moons
     {name: "io", parent: "jupiter", w: 20, r: 1400, inc: 0.05},
     {name: "europa", parent: "jupiter", w: 10, r: 1700, inc: 0.47},
     {name: "ganymede", parent: "jupiter", w: 5, r: 2100, inc: 0.2},
     {name: "callisto", parent: "jupiter", w: 2, r: 2700, inc: 0.19},
 
+    //Saturn moons
     {name: "titan", parent: "saturn", w: 4, r: 1400, inc: 0.33},
     {name: "enceladus", parent: "saturn", w: 18, r: 1050, inc: 0.02},
     {name: "iapetus", parent: "saturn", w: 0.8, r: 2200, inc: 7.57},
     {name: "mimas", parent: "saturn", w: 22, r: 950, inc: 1.57},
 
+    //Uranus moons
     {name: "titania", parent: "uranus", w: 2.2, r: 900, inc: 0.08},
     {name: "oberon", parent: "uranus", w: 1.4, r: 1050, inc: 0.07},
     {name: "ariel", parent: "uranus", w: 5.5, r: 700, inc: 0.04},
     {name: "umbriel", parent: "uranus", w: 3.6, r: 800, inc: 0.13},
     {name: "miranda", parent: "uranus", w: 9, r: 650, inc: 4.34},
 
+    //Neptune moons
     {name: "triton", parent: "neptune", w: 5, r: 900, inc: 157},
     {name: "proteus", parent: "neptune", w: 14, r: 700, inc: 0.55},
     {name: "nereid", parent: "neptune", w: 0.3, r: 1400, inc: 7.23},

@@ -1,17 +1,4 @@
 import * as THREE from 'three';
-//TO DO
-
-/*
-7. Add UI elements and make them look good
-    Speed up button
-    pause button
-    Orbit ring toggle
-    Pop out menu that lets you click a planet
-
-8. Ability to click the planets themselves
-*/
-
-
 
 let app = {
     el: document.getElementById("app"),
@@ -373,14 +360,14 @@ const render = () => {
 };
 
 const planetInfo = {
-    mercury: "The closest planet to the sun, and the smallest planet in the solar system. Being the fastest planet, it was named after Mercury, the fastest of the Roman gods.",
-    venus: "",
-    earth: "",
-    mars: "",
-    jupiter: "",
-    saturn: "",
-    uranus: "",
-    neptune: "",
+    mercury: ["The closest planet to the sun, and the smallest planet in the solar system. It takes Mercury 88 days to orbit the sun. Being the fastest planet, it was named after Mercury, the fastest of the Roman gods."],
+    venus: "The second closest planet to the sun. Venus is the hottest planet in the solar system. It's surface is hot enough to melt lead. It takes Venus 225 days to orbit the sun. Venus also rotates backwards compared to Earth.",
+    earth: "The third closest planet to the sun and our home! Earth takes 365.25 days to orbit the sun, which is why we get leap years.",
+    mars: "The fourth planet from the sun. The only planet known to be entirely inhabited by robots. Mars takes 687 days to orbit the sun. Mars has two small moons known as Phobos and Deimos, which are potato-shaped due to their lack of mass, which prevents gravity from making them spherical.",
+    jupiter: "The fifth planet from the sun, and the largest planet in the solar system. Jupiter takes about 4,333 days to orbit the sun. Jupiter has a whopping 95 moons. Its four major moons, Io, Europa, Ganymede, and Callisto, known today as the Galilean satellites, were first observed by Galileo Galileo in 1610. Europa is one of the most likely places to find life in our solar system due to evidence of a large ocean beneath its icy crust.",
+    saturn: "The sixth planet from the sun, most commonly known for its rings. It takes Saturn about 10,756 days to orbit the sun. Saturn has 146 moons in its orbit, and of course its giant rings. Itss five major moons are Titan, Enceladus, Iapetus, and Mimas. Starting at Saturn and moving outword, the rings are known as the D ring, C ring, B ring, A ring, F ring, G ring, E ring, and the Phoebe ring, which orbits Saturn's moon, Pheobe. There is also a giant gap between rings A and B called the Cassini division, which measures about 2,920 miles.",
+    uranus: "The seventh planet from the sun. Uranus is surrounded by faint rings, spins nearly 90 degrees off of the plane of its orbit, and takes 30,687 days to orbit the sun. Uranus is also home to 27 moons, with its 5 major moons being Titania, Oberon, Ariel, Umbriel, and Miranda. It was discovered in 1781 by astronomer William Herschel, and though originally thought to be a comet or a star, observations by astronomer Johann Elert Bode led to it being accepted as a planet. Uranus was also the first planet found with the aid of a telescope.",
+    neptune: "The eighth, and most distant planet from the sun. It takes 60,190 days for Neptune to orbit the sun. Every 248 years, Neptune's orbit becomes even further than the dwarf planet, Pluto's, due to Pluto's oval shaped orbit. Neptune only has 16 moons. Its major moons are Triton, Proteus, Nereid, and Larissa. Triton is the only large moon in the entire solar system that has a retrograde orbit, meaning it orbits its planet in reverse.",
 };
 
 function updateInfoBox()
@@ -680,10 +667,22 @@ function createPlanetGeometry()
     //Saturn ring UV wrapping
     const positions = ring.geometry.attributes.position;
     const uvs = ring.geometry.attributes.uv;
-    for (let i = 0; i < positions.count; i++) {
-    const x = positions.getX(i);
-    const y = positions.getY(i);
-    uvs.setXY(i, (x / 2500 + 1) / 2, (y / 2500 + 1) / 2);
+    const innerRadius = 700;
+    const outerRadius = 1800;
+
+    for (let i = 0; i < positions.count; i++) 
+    {
+        const x = positions.getX(i);
+        const y = positions.getY(i);
+        const distance = Math.sqrt(x * x + y * y);
+
+        //U goes from the inner edge to the outer edge
+        const u = (distance - innerRadius) / (outerRadius - innerRadius);
+
+        //V wraps around the ring based on the angle
+        const v = (Math.atan2(y, x) / (2 * Math.PI)) + 0.5;
+
+        uvs.setXY(i, u, v);
     }
     uvs.needsUpdate = true;
     //-------------------------

@@ -1,4 +1,6 @@
-# SolarSystemModel
+# Zak's Solar System
+
+![logo]{OverheadScreenshot.png}
 
 In order to run, you must have node.js installed, which can be found here: https://nodejs.org/en/download.
 
@@ -12,6 +14,8 @@ npm install --save-dev vite
 
 npx vite
 
-After running 'npx vite,' the terminal will produce a localhost. Paste it into your browser to see the scene. You can click and drag to rotate around the planets, scroll to zoom in and out, and shift click to pan around the scene.
+After running 'npx vite,' the terminal will produce a localhost. Paste it into your browser to see the scene.
 
-## This project is a work in progress and some things may not work as intended.
+
+
+

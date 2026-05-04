@@ -40,6 +40,8 @@ button:hover
     z-index: 10;
     display: flex;
     align-items: center;
+    transition: opacity 0.5s ease;
+    opacity: 1;
     gap: 10px;
 }
 
@@ -75,8 +77,10 @@ button:hover
     border-radius: 4px;
     padding: 10px;
     z-index: 10;
-    transition: left 0.3s ease;
+    transition: left 0.3s ease, opacity 0.5s ease;
+    opacity: 1;
     color: white;
+
 }
 
 #planetMenu.open 
@@ -123,4 +127,65 @@ button:hover
     border-radius: 50%;
     display: inline-block;
     flex-shrink: 0;
+}
+
+#controlsBox
+{
+    position: fixed;
+    bottom: 105px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    width: 221px;
+    transition: opacity 0.5s ease;
+    opacity: 1;
+}
+
+#creditBox
+{
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    width: 221px;
+    font-size: 10px;
+    transition: opacity 0.5s ease;
+    opacity: 1;
+}
+
+#infoBox
+{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 10px;
+    width: 250px;
+    z-index: 10;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+#infoTitle
+{
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+#infoText
+{
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
 }

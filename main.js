@@ -45,7 +45,10 @@ let isDragging = false;
 
 let prevMouse = {x: 0, y: 0}
 
-const keysHeld = {w: false, a: false, s: false, d: false, q: false, e: false}
+//Boolean for if the UI is visible
+let hideUI = false;
+
+const keysHeld = {w: false, a: false, s: false, d: false, q: false, e: false, h: false}
 
 const init = () => {
 
@@ -112,7 +115,7 @@ const init = () => {
     {
         e.preventDefault();
         spherical.radius += e.deltaY * 5;
-        spherical.radius = Math.max(500, Math.min(200000, spherical.radius));
+        spherical.radius = Math.max(500, Math.min(70000, spherical.radius));
     }, 
     {passive: false})
     
@@ -142,6 +145,36 @@ const init = () => {
         {
             keysHeld.e = true;
         }
+
+        if(e.key === "h")
+        {
+            if(!keysHeld.h)
+            {
+
+                keysHeld.h = true;
+                hideUI = !hideUI;
+
+                const elements = 
+                [
+                    document.getElementById("topBar"),
+                    document.getElementById("planetMenu"),
+                    document.getElementById("controlsBox"),
+                    document.getElementById("creditBox")
+                ]
+
+            const hidden = elements[0].style.display === "none";
+            elements.forEach(el => 
+                {
+                    if(el)
+                    {
+                        el.style.opacity = hideUI ? "0" : "1"
+                        el.style.pointerEvents = hideUI ? "none" : "";
+                    }
+                
+                });
+            }
+            
+        }
     })
 
     window.addEventListener("keyup", (e) =>
@@ -169,6 +202,10 @@ const init = () => {
         if(e.key === "e")
         {
             keysHeld.e = false;
+        }
+        if(e.key === "h")
+        {
+            keysHeld.h = false;
         }
     })
 
@@ -207,8 +244,16 @@ const init = () => {
             {
                 lockedPlanet = clicked.name;
                 spherical.radius = clicked.geometry.parameters.radius * 10;
+                updateInfoBox();
             }
         }
+    })
+
+    window.addEventListener("resize", () =>
+    {
+        app.renderer.setSize(window.innerWidth, window.innerHeight);
+        app.camera.aspect = window.innerWidth / window.innerHeight;
+        app.camera.updateProjectionMatrix();
     })
 
     const sunLight = new THREE.PointLight(0xffffff, 3, 0, 0);
@@ -287,6 +332,7 @@ document.querySelectorAll("#planetMenu li").forEach(item =>
         {
             lockedPlanet = planetName;
             spherical.radius = obj.geometry.parameters.radius * 10;
+            updateInfoBox();
         }
     })
 })
@@ -326,6 +372,35 @@ const render = () => {
     app.renderer.render(app.scene, app.camera);
 };
 
+const planetInfo = {
+    mercury: "The closest planet to the sun, and the smallest planet in the solar system. Being the fastest planet, it was named after Mercury, the fastest of the Roman gods.",
+    venus: "",
+    earth: "",
+    mars: "",
+    jupiter: "",
+    saturn: "",
+    uranus: "",
+    neptune: "",
+};
+
+function updateInfoBox()
+{
+    const infoBox = document.getElementById("infoBox");
+    const infoTitle = document.getElementById("infoTitle");
+    const infoText = document.getElementById("infoText");
+
+    if(lockedPlanet && planetInfo[lockedPlanet])
+    {
+        infoTitle.textContent = lockedPlanet.charAt(0).toUpperCase() + lockedPlanet.slice(1);
+        infoText.textContent = planetInfo[lockedPlanet];
+        infoBox.style.display = "block";
+    }
+    else
+    {
+        infoBox.style.display = "none";
+    }
+}
+
 function moveCamera()
 {
     const camSpeed = 300;
@@ -353,31 +428,37 @@ function moveCamera()
     {
         cameraTarget.addScaledVector(forward, -camSpeed);
         lockedPlanet = null;
+        updateInfoBox();
     }
     if(keysHeld.s)
     {
         cameraTarget.addScaledVector(forward, camSpeed);
         lockedPlanet = null;
+        updateInfoBox();
     }
     if(keysHeld.d)
     {
         cameraTarget.addScaledVector(sideways, camSpeed);
         lockedPlanet = null;
+        updateInfoBox();
     }
     if(keysHeld.a)
     {
         cameraTarget.addScaledVector(sideways, -camSpeed);
         lockedPlanet = null;
+        updateInfoBox();
     }
     if(keysHeld.q)
     {
         cameraTarget.addScaledVector(up, camSpeed);
         lockedPlanet = null;
+        updateInfoBox();
     }
     if(keysHeld.e)
     {
         cameraTarget.addScaledVector(up, -camSpeed);
         lockedPlanet = null;
+        updateInfoBox();
     }
 }
 
